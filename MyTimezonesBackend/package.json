@@ -1,0 +1,16 @@
+{
+  "name": "my-timezones",
+  "version": "0.1.0",
+  "description": "Test project for Toptal screening process. It consists on simple CRUDs about timezones.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Carlos Gines",
+  "license": "ISC"
+}
