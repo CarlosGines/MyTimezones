@@ -3,7 +3,7 @@ package com.carlosgines.mytimezones.presentation.presenters;
 /**
  * Created by efrel on 4/4/16.
  */
-public interface SigninView {
+public interface SigninView extends BaseView{
 
     /**
      * Delete all message errors on fields.
@@ -24,12 +24,4 @@ public interface SigninView {
      * Set empty password error message on password field.
      */
     void setEmptyPasswordError();
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    void showProgress(final boolean show);
-
-    //TODO Remove this method after corresponding Use Case is added
-    void startUserLoginTask(String email, String password);
 }

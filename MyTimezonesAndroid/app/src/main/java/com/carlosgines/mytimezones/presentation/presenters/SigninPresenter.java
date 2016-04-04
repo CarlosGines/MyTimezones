@@ -3,6 +3,10 @@ package com.carlosgines.mytimezones.presentation.presenters;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.carlosgines.mytimezones.domain.usecases.SigninUseCase;
+
+import javax.inject.Inject;
+
 /**
  * Presenter that controls communication between SigninView views and models.
  */
@@ -16,6 +20,18 @@ public class SigninPresenter {
      * View object for events callbacks
      */
     private SigninView mView;
+
+    // Use cases
+    private final SigninUseCase mSigninUseCase;
+
+    // ==========================================================================
+    // Constructor
+    // ==========================================================================
+
+    @Inject
+    public SigninPresenter(SigninUseCase signinUseCase) {
+        mSigninUseCase = signinUseCase;
+    }
 
     // ==========================================================================
     // View events
@@ -62,7 +78,8 @@ public class SigninPresenter {
         // Show a progress spinner, and kick off a background task to
         // perform the user login attempt.
         mView.showProgress(true);
-        mView.startUserLoginTask(email, password);
+
+        mSigninUseCase.execute(email, password, new SigninSubscriber(mView));
     }
 
     private boolean isEmailValid(String email) {
@@ -73,5 +90,33 @@ public class SigninPresenter {
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
+    }
+
+    // ==========================================================================
+    // Use Case Subscribers
+    // ==========================================================================
+
+    /**
+     * Use case subscriber to receive notifications from GetDecDetUseCase and PreviewDecDetUseCase
+     */
+    private final class SigninSubscriber extends DefaultSubscriber<Object> {
+
+        public SigninSubscriber(BaseView baseView) {
+            super(baseView);
+        }
+
+        @Override
+        public void onNext(Object o) {
+            mView.showProgress(false);
+        }
+
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError() {
+            mView.showProgress(false);
+        }
     }
 }

@@ -4,6 +4,8 @@ import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
 import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscriber;
 
@@ -24,6 +26,7 @@ public class SigninUseCase extends UseCase {
     // Constructor
     // ==========================================================================
 
+    @Inject
     public SigninUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
                          PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);

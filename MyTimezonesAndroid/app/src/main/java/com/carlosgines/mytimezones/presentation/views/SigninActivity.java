@@ -16,6 +16,8 @@ import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.SigninView;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,30 +28,10 @@ import butterknife.OnClick;
 public class SigninActivity extends BaseActivity implements SigninView {
 
     // ==========================================================================
-    // Constants
-    // ==========================================================================
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
-    // ==========================================================================
     // Member variables
     // ==========================================================================
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
-    /**
-     * Dagger component for decisions
-     */
-    private ActivityComponent mActivityComponent;
-
+    @Inject
     SigninPresenter mPresenter;
 
     // UI references.
@@ -61,6 +43,11 @@ public class SigninActivity extends BaseActivity implements SigninView {
     View mProgressView;
     @Bind(R.id.login_form)
     View mLoginFormView;
+
+    /**
+     * Dagger component for decisions
+     */
+    private ActivityComponent mActivityComponent;
 
     // ==========================================================================
     // Activity lifecycle methods
@@ -74,8 +61,6 @@ public class SigninActivity extends BaseActivity implements SigninView {
 
         // Prepare injector and inject
         this.initInjector();
-
-        mPresenter = new SigninPresenter();
 
         // Init event for presenter
         mPresenter.onInit(this);
@@ -117,30 +102,6 @@ public class SigninActivity extends BaseActivity implements SigninView {
     // ==========================================================================
 
     @Override
-    public void resetErrors() {
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-    }
-
-    @Override
-    public void setEmptyEmailError() {
-        mEmailView.setError(getString(R.string.error_field_required));
-        mEmailView.requestFocus();
-    }
-
-    @Override
-    public void setInvalidEmailError() {
-        mEmailView.setError(getString(R.string.error_invalid_email));
-        mEmailView.requestFocus();
-    }
-
-    @Override
-    public void setEmptyPasswordError() {
-        mPasswordView.setError(getString(R.string.error_field_required));
-        mPasswordView.requestFocus();
-    }
-
-    @Override
     public void showProgress(final boolean show) {
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -164,71 +125,34 @@ public class SigninActivity extends BaseActivity implements SigninView {
     }
 
     @Override
-    public void startUserLoginTask(String email, String password) {
-        mAuthTask = new SigninActivity.UserLoginTask(email, password);
-        mAuthTask.execute((Void) null);
+    public void showNoConnection(boolean show) {
+        if (show) {
+            super.showMessage(R.string.no_connection);
+        }
     }
 
+    @Override
+    public void resetErrors() {
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+    }
 
-    // ==========================================================================
-    // Mock AsyncTask
-    // ==========================================================================
+    @Override
+    public void setEmptyEmailError() {
+        mEmailView.setError(getString(R.string.error_field_required));
+        mEmailView.requestFocus();
+    }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    @Override
+    public void setInvalidEmailError() {
+        mEmailView.setError(getString(R.string.error_invalid_email));
+        mEmailView.requestFocus();
+    }
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
+    @Override
+    public void setEmptyPasswordError() {
+        mPasswordView.setError(getString(R.string.error_field_required));
+        mPasswordView.requestFocus();
     }
 }
 
