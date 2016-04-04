@@ -26,4 +26,8 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     // Butter Knife
     compile "com.jakewharton:butterknife:7.0.1"
+    // Rx Java
+    compile 'io.reactivex:rxjava:1.1.0'
+    // Rx Android
+    compile 'io.reactivex:rxandroid:1.1.0'
 }
