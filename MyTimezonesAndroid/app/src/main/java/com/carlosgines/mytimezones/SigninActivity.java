@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A login screen that offers login via email/password.
@@ -41,10 +43,14 @@ public class SigninActivity extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private EditText mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    @Bind(R.id.email)
+    EditText mEmailView;
+    @Bind(R.id.password)
+    EditText mPasswordView;
+    @Bind(R.id.login_progress)
+    View mProgressView;
+    @Bind(R.id.login_form)
+    View mLoginFormView;
 
     // ==========================================================================
     // Activity lifecycle methods
@@ -54,10 +60,8 @@ public class SigninActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        // Set up the login form.
-        mEmailView = (EditText) findViewById(R.id.email);
+        ButterKnife.bind(this);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -68,17 +72,15 @@ public class SigninActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+    // ==========================================================================
+    // User input
+    // ==========================================================================
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+    @OnClick(R.id.email_sign_in_button)
+    public void onSigninClick() {
+        attemptLogin();
     }
 
     /**
