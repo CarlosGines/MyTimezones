@@ -21,7 +21,7 @@ public class VolleyAdapter {
      * right url dynamically.
      */
     // public final static String DEV_BASE_URL = "https://diggerapp.com/dev/ws/public/index.php";
-    public final static String BASE_URL = "http://localhost:8080";
+    public final static String BASE_URL = "http://192.168.1.21:8080";
 
     // ==========================================================================
     // Member variables

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.ServerError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -76,6 +77,8 @@ public class ReqAdapter {
                 throw new RuntimeException(
                         message, new ServerResponseException(code, message)
                 );
+            } else if (cause instanceof ParseError) {
+                throw new RuntimeException("Volley parsing exception", e);
             } else {
                 throw new RuntimeException("Unknown ExecutionException", e);
             }
