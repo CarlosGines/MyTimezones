@@ -2,6 +2,8 @@
 <manifest package="com.carlosgines.mytimezones"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="com.carlosgines.mytimezones.presentation.di.MyTimezonesApplication"
         android:allowBackup="true"

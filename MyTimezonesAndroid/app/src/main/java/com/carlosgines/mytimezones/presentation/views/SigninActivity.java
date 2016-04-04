@@ -2,7 +2,6 @@ package com.carlosgines.mytimezones.presentation.views;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
