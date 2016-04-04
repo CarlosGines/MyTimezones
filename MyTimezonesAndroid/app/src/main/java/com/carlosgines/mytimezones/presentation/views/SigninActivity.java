@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -12,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.carlosgines.mytimezones.R;
+import com.carlosgines.mytimezones.presentation.di.ActivityComponent;
+import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.SigninView;
 
@@ -22,7 +23,7 @@ import butterknife.OnClick;
 /**
  * Signin Activity serving as SigninView implementation
  */
-public class SigninActivity extends AppCompatActivity implements SigninView {
+public class SigninActivity extends BaseActivity implements SigninView {
 
     // ==========================================================================
     // Constants
@@ -44,6 +45,10 @@ public class SigninActivity extends AppCompatActivity implements SigninView {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    /**
+     * Dagger component for decisions
+     */
+    private ActivityComponent mActivityComponent;
 
     SigninPresenter mPresenter;
 
@@ -67,6 +72,9 @@ public class SigninActivity extends AppCompatActivity implements SigninView {
         setContentView(R.layout.activity_signin);
         ButterKnife.bind(this);
 
+        // Prepare injector and inject
+        this.initInjector();
+
         mPresenter = new SigninPresenter();
 
         // Init event for presenter
@@ -83,6 +91,15 @@ public class SigninActivity extends AppCompatActivity implements SigninView {
                 return false;
             }
         });
+    }
+
+    // Initializes injector and inject
+    private void initInjector() {
+        mActivityComponent = DaggerActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
+        mActivityComponent.inject(this);
     }
 
     // ==========================================================================

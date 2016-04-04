@@ -1,4 +1,6 @@
-package com.carlosgines.mytimezones.domain.usecases;
+package com.carlosgines.mytimezones.domain.usecases.rx;
+
+import com.carlosgines.mytimezones.domain.usecases.UseCase;
 
 import java.util.concurrent.Executor;
 

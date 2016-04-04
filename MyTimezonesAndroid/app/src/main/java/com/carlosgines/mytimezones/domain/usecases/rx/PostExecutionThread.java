@@ -1,4 +1,4 @@
-package com.carlosgines.mytimezones.domain.usecases;
+package com.carlosgines.mytimezones.domain.usecases.rx;
 
 import rx.Scheduler;
 

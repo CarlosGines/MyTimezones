@@ -1,5 +1,8 @@
 package com.carlosgines.mytimezones.domain.usecases;
 
+import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
+import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -39,7 +42,7 @@ public abstract class UseCase {
     // ==========================================================================
 
     /**
-     * Builds an {@link rx.Observable} which will be used when executing the current {@link UseCase}.
+     * Builds an Observable which will be used when executing the current UseCase.
      */
     protected abstract Observable buildUseCaseObservable();
 
@@ -49,8 +52,8 @@ public abstract class UseCase {
 
     /**
      * Executes the current use case.
-     *
-     * @param useCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable()}.
+     * @param useCaseSubscriber The guy who will be listen to the observable built with
+     *                          #buildUseCaseObservable().
      */
     @SuppressWarnings("unchecked")
     protected void execute(Subscriber useCaseSubscriber) {

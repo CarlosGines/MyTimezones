@@ -2,12 +2,8 @@
 <manifest package="com.carlosgines.mytimezones"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-
     <application
+        android:name="com.carlosgines.mytimezones.presentation.di.MyTimezonesApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,5 +19,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

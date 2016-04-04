@@ -1,6 +1,8 @@
 package com.carlosgines.mytimezones.domain.usecases;
 
 import com.carlosgines.mytimezones.domain.repositories.UserRepository;
+import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
+import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
 
 import rx.Observable;
 import rx.Subscriber;
