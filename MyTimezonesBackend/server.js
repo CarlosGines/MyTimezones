@@ -1,45 +1,43 @@
-// Create a new Express application.
-var app = require('express')();
-
-// Use application-level middleware for common functionality
-app.use(require('morgan')('dev'));
+var express = require('express');
+var mongoose = require('mongoose');
+var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var routes = require('./routes');
+var models = require('./models');
+
+var app = express();
+
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Init Passport
-var mypass = require('./mypass');
-mypass.init(app);
-
-// Define routes.
-app.get('/', function(req, res) {
-	res.send('Hello Toptaler');
+var connection = mongoose.createConnection('mongodb://localhost:27017/test');
+connection.on('error', console.error.bind(console, 'connection error:'));
+connection.once('open', function() {
+  console.info('Connected to database')
 });
 
-app.post('/signin',
-  mypass.localAuth,
-  function(req, res) {
-    res.json({token: "Soy un token"});
-  }
-);
+var User = connection.model('User', models.User, 'users');
+function db (req, res, next) {
+  req.db = {
+    User: User,
+  };
+  return next();
+}
 
-app.post('/register',
-  function(req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
-    if (username == 'fooo') {
-      res.sendStatus(409);
-    } else {
-      res.json({token: "Soy un token"});
-    }
-  }
-);
+routes.auth.init(app, User);
+
+app.get('/', function(req, res) {
+  res.send('Hello Toptaler');
+});
+
+app.post('/register', db, routes.auth.register);
+app.post('/signin', routes.auth.localAuth, db, routes.auth.signin);
 
 app.use(function(req, res){
     res.sendStatus(404);
 });
 
-// Start listening
 app.listen(8080, '0.0.0.0', function(){
 	console.log('Listening on port 8080...');
 });
