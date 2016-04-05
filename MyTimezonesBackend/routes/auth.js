@@ -1,5 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var uuid = require('node-uuid');
 
 exports.init = function(app, User) {
   // Configure Passport local strategy
@@ -40,7 +41,7 @@ exports.register = function(req, res, next) {
       var newuser = new req.db.User({
         username: req.body.username,
         password: req.body.password,
-        token: "Atrassss"
+        token: uuid.v4()
       });
       newuser.save(function (err, fluffy) {
         if (err) {return next(err);}
