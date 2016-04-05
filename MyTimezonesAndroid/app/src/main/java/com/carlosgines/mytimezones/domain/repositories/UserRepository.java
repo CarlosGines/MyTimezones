@@ -8,10 +8,19 @@ import rx.Observable;
 public interface UserRepository {
 
     /**
-     * Get an Observable which will emit credentials of an user.
+     * Get an Observable which will emit an auth token of an user in case valid
+     * credentials are provided.
      *
      * @param userName The user name
      * @param password The user password
      */
-    Observable signin(final String userName, final String password);
+    Observable<String> signin(final String userName, final String password);
+
+    /**
+     * Get an Observable which register a new user and emit an auth token.
+     *
+     * @param userName The user name
+     * @param password The user password
+     */
+    Observable<String> register(final String userName, final String password);
 }

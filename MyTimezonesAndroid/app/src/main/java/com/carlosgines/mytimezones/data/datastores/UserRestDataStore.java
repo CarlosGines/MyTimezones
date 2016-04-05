@@ -2,12 +2,13 @@ package com.carlosgines.mytimezones.data.datastores;
 
 import android.content.Context;
 
+import com.carlosgines.mytimezones.data.datastores.requests.RegisterReq;
 import com.carlosgines.mytimezones.data.datastores.requests.SigninReq;
 
 import javax.inject.Inject;
 
 /**
- * Created by efrel on 4/4/16.
+ * A repository to manage User related data.
  */
 public class UserRestDataStore {
     // ==========================================================================
@@ -34,5 +35,9 @@ public class UserRestDataStore {
 
     public String signin(final String userName, final String password) {
         return new SigninReq(userName, password).signin(mCtx);
+    }
+
+    public String register(final String userName, final String password) {
+        return new RegisterReq(userName, password).register(mCtx);
     }
 }

@@ -10,9 +10,9 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * This is an implementation UseCase that represents an attempt to sign in.
+ * This is an implementation UseCase that represents an attempt to register.
  */
-public class SigninUseCase extends UseCase {
+public class RegisterUseCase extends UseCase {
 
     // ==========================================================================
     // Member variables
@@ -27,8 +27,8 @@ public class SigninUseCase extends UseCase {
     // ==========================================================================
 
     @Inject
-    public SigninUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
-                         PostExecutionThread postExecutionThread) {
+    public RegisterUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
+                           PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
@@ -48,6 +48,6 @@ public class SigninUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return mUserRepository.signin(mUserName, mPassword);
+        return mUserRepository.register(mUserName, mPassword);
     }
 }

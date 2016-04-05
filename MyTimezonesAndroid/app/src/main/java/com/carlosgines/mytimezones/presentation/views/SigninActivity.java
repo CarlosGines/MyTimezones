@@ -197,5 +197,11 @@ public class SigninActivity extends BaseActivity implements SigninView {
         mPasswordView.setError(getString(R.string.error_auth_failed));
         mPasswordView.requestFocus();
     }
+
+    @Override
+    public void setDuplicateUserNameError() {
+        mUserNameView.setError(getString(R.string.error_duplicate_username));
+        mUserNameView.requestFocus();
+    }
 }
 

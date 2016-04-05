@@ -2,14 +2,14 @@ package com.carlosgines.mytimezones.data.datastores.requests;
 
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
+import com.android.volley.ServerError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-public class SigninReq implements Req {
+public class RegisterReq implements Req {
 
     // ========================================================================
     // Member variables
@@ -22,7 +22,7 @@ public class SigninReq implements Req {
     // Member variables
     // ========================================================================
 
-    public SigninReq(final String userName, final String password) {
+    public RegisterReq(final String userName, final String password) {
         mUserName = userName;
         mPassword = password;
     }
@@ -31,13 +31,14 @@ public class SigninReq implements Req {
     // Public methods
     // ========================================================================
 
-    public String signin(final Context ctx) {
+    public String register(final Context ctx) {
         try {
             return ReqAdapter.sendFgReq(ctx, this)
                     .getString(Contract.RES_TOKEN);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
-            if (cause instanceof AuthFailureError) {
+            if (cause instanceof ServerError &&
+                    ReqAdapter.getStatusCode((ServerError) cause) == 409) {
                 return "";
             } else {
                 ReqAdapter.handleExecutionException(e, getRoute());
@@ -84,7 +85,7 @@ public class SigninReq implements Req {
     public static abstract class Contract {
 
         // Url suffix for the webservice call
-        private static final String ROUTE = "signin";
+        private static final String ROUTE = "register";
 
         // Request input params
         private static final String REQ_USERNAME = "username";

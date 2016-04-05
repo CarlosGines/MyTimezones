@@ -51,4 +51,10 @@ public interface SigninView extends BaseView{
      * Set authentication failure error message on password field.
      */
     void setAuthFailedError();
+
+    /**
+     * Set duplicate user name error message on user name field.
+     */
+    void setDuplicateUserNameError();
+
 }

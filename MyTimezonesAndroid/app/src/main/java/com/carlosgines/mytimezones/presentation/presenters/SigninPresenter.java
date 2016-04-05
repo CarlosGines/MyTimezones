@@ -2,6 +2,7 @@ package com.carlosgines.mytimezones.presentation.presenters;
 
 import android.text.TextUtils;
 
+import com.carlosgines.mytimezones.domain.usecases.RegisterUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SigninUseCase;
 
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ public class SigninPresenter {
 
     // Use cases:
     private final SigninUseCase mSigninUseCase;
+    private final RegisterUseCase mRegisterUseCase;
 
     // View state:
     private SigninView.ViewSwitch mViewSwitch = SigninView.ViewSwitch.SIGNIN;
@@ -33,9 +35,11 @@ public class SigninPresenter {
 
     @Inject
     public SigninPresenter(final SigninView view,
-                           final SigninUseCase signinUseCase) {
+                           final SigninUseCase signinUseCase,
+                           final RegisterUseCase registerUseCase) {
         mView = view;
         mSigninUseCase = signinUseCase;
+        mRegisterUseCase = registerUseCase;
     }
 
     // ========================================================================
@@ -89,7 +93,9 @@ public class SigninPresenter {
             return;
         }
         mView.showProgress(true);
-        mSigninUseCase.execute(username, password, new SigninSubscriber(mView));
+        mSigninUseCase.execute(
+                username, password, new SigninSubscriber(mView)
+        );
     }
 
     /**
@@ -125,7 +131,9 @@ public class SigninPresenter {
             return;
         }
         mView.showProgress(true);
-        mSigninUseCase.execute(username, password, new SigninSubscriber(mView));
+        mRegisterUseCase.execute(
+                username, password, new RegisterSubscriber(mView)
+        );
     }
 
     private boolean isUserNameValid(final String userName) {
@@ -167,5 +175,28 @@ public class SigninPresenter {
         }
     }
 
+    /**
+     * Use case subscriber to receive notifications from SigninUseCase
+     */
+    private final class RegisterSubscriber extends DefaultSubscriber<String> {
 
+        public RegisterSubscriber(final BaseView baseView) {
+            super(baseView);
+        }
+
+        @Override
+        public void onNext(final String token) {
+            mView.showProgress(false);
+            if(TextUtils.isEmpty(token)) {
+                mView.setDuplicateUserNameError();
+            } else {
+                mView.showMessage("Registered! Token: " + token);
+            }
+        }
+
+        @Override
+        public void onError() {
+            mView.showProgress(false);
+        }
+    }
 }

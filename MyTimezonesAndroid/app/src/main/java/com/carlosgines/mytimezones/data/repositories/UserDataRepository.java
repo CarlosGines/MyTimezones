@@ -21,12 +21,26 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public Observable signin(final String userName, final String password) {
+    public Observable<String> signin(final String userName,
+                                     final String password) {
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 subscriber.onNext(
                         mUserRestDataStore.signin(userName, password)
+                );
+            }
+        });
+    }
+
+    @Override
+    public Observable<String> register(final String userName,
+                                       final String password) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext(
+                        mUserRestDataStore.register(userName, password)
                 );
             }
         });
