@@ -7,9 +7,9 @@ exports.init = function(app) {
   passport.use(new LocalStrategy(
     function(username, password, done) {
       // Mock auth
-      if(username == "foo") {
+      if(username == "fooo") {
         var user = {name: "Foo"};
-        if (password != "bar") {
+        if (password != "barr") {
           return done(null, false, { message: 'Incorrect password.' });
         }
         return done(null, user);

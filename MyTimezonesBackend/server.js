@@ -19,7 +19,19 @@ app.get('/', function(req, res) {
 app.post('/signin',
   mypass.localAuth,
   function(req, res) {
-    res.send('Signed in as ' +  req.user.name);
+    res.json({token: "Soy un token"});
+  }
+);
+
+app.post('/register',
+  function(req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+    if (username == 'fooo') {
+      res.sendStatus(409);
+    } else {
+      res.json({token: "Soy un token"});
+    }
   }
 );
 
