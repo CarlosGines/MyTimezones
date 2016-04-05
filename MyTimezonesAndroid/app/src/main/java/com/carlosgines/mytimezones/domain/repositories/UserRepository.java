@@ -10,8 +10,8 @@ public interface UserRepository {
     /**
      * Get an Observable which will emit credentials of an user.
      *
-     * @param email The user email
+     * @param userName The user name
      * @param password The user password
      */
-    Observable signin(final String email, final String password);
+    Observable signin(final String userName, final String password);
 }

@@ -99,19 +99,20 @@ public class SigninPresenter {
     /**
      * Use case subscriber to receive notifications from GetDecDetUseCase and PreviewDecDetUseCase
      */
-    private final class SigninSubscriber extends DefaultSubscriber<Object> {
+    private final class SigninSubscriber extends DefaultSubscriber<String> {
 
         public SigninSubscriber(BaseView baseView) {
             super(baseView);
         }
 
         @Override
-        public void onNext(Object o) {
+        public void onNext(final String token) {
             mView.showProgress(false);
-        }
-
-        @Override
-        public void onCompleted() {
+            if(TextUtils.isEmpty(token)) {
+                mView.showMessage("You failed.");
+            } else {
+                mView.showMessage("Signed in! Token: " + token);
+            }
         }
 
         @Override

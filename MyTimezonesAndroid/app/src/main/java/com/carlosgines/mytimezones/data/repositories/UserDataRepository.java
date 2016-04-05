@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Func1;
 
 /**
  * A UserRepository for managing user data.
@@ -22,11 +21,13 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public Observable signin(final String email, final String password) {
+    public Observable signin(final String userName, final String password) {
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext(mUserRestDataStore.signin(email, password));
+                subscriber.onNext(
+                        mUserRestDataStore.signin(userName, password)
+                );
             }
         });
     }

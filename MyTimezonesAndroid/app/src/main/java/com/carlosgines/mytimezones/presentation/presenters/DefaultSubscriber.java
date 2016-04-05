@@ -1,5 +1,7 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
+import com.android.volley.NoConnectionError;
+
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -41,7 +43,7 @@ public class DefaultSubscriber<T> extends rx.Subscriber<T> {
         Throwable cause = e.getCause();
         if (cause != null) {
             if (cause instanceof TimeoutException
-//                    || cause instanceof NoConnectionError
+                    || cause instanceof NoConnectionError
                     ) {
                 mBaseView.showNoConnection(true);
                 return;
