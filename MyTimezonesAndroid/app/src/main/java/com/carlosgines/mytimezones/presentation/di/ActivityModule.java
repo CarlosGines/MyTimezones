@@ -2,6 +2,8 @@ package com.carlosgines.mytimezones.presentation.di;
 
 import android.app.Activity;
 
+import com.carlosgines.mytimezones.presentation.presenters.SigninView;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,7 +24,13 @@ public class ActivityModule {
      */
     @Provides
     @PerActivity
-    Activity activity() {
+    Activity provideActivity() {
         return this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    SigninView provideSigninView() {
+        return (SigninView)this.activity;
     }
 }

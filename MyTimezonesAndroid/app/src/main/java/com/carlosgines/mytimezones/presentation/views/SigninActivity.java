@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.carlosgines.mytimezones.R;
-import com.carlosgines.mytimezones.presentation.di.ActivityComponent;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.SigninView;
@@ -38,62 +38,73 @@ public class SigninActivity extends BaseActivity implements SigninView {
     EditText mUserNameView;
     @Bind(R.id.password)
     EditText mPasswordView;
-    @Bind(R.id.login_progress)
+    @Bind(R.id.password2)
+    EditText mPassword2View;
+    @Bind(R.id.signin_progress)
     View mProgressView;
-    @Bind(R.id.login_form)
+    @Bind(R.id.signin_form)
     View mLoginFormView;
-
-    /**
-     * Dagger component for decisions
-     */
-    private ActivityComponent mActivityComponent;
+    @Bind(R.id.action_button)
+    Button mActionButton;
+    @Bind(R.id.switch_signin_register)
+    Button mSwitchButton;
 
     // ==========================================================================
     // Activity lifecycle methods
     // ==========================================================================
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         ButterKnife.bind(this);
 
-        // Prepare injector and inject
+        this.initViews();
         this.initInjector();
+        mPresenter.onInit();
+    }
 
-        // Init event for presenter
-        mPresenter.onInit(this);
-
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    mPresenter.onSigninClick(mUserNameView.getText().toString(),
-                            mPasswordView.getText().toString());
-                    return true;
-                }
-                return false;
-            }
-        });
+    public void initViews() {
+        final TextView.OnEditorActionListener listener =
+                new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int id,
+                                                  KeyEvent keyEvent) {
+                        if (id == EditorInfo.IME_ACTION_DONE) {
+                            SigninActivity.this.onActionClick();
+                            return true;
+                        }
+                        return false;
+                    }
+                };
+        mPasswordView.setOnEditorActionListener(listener);
+        mPassword2View.setOnEditorActionListener(listener);
     }
 
     // Initializes injector and inject
     private void initInjector() {
-        mActivityComponent = DaggerActivityComponent.builder()
+        DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
-                .build();
-        mActivityComponent.inject(this);
+                .build().inject(this);
     }
 
     // ==========================================================================
     // User input
     // ==========================================================================
 
-    @OnClick(R.id.email_sign_in_button)
-    public void onSigninClick() {
-        mPresenter.onSigninClick(mUserNameView.getText().toString(),
-                mPasswordView.getText().toString());
+    @OnClick(R.id.action_button)
+    public void onActionClick() {
+        mPresenter.onActionClick(
+                mUserNameView.getText().toString(),
+                mPasswordView.getText().toString(),
+                mPassword2View.getText().toString()
+        );
+    }
+
+    @OnClick(R.id.switch_signin_register)
+    public void onSwitchClick() {
+        mPresenter.onSwitchClick();
     }
 
     // ==========================================================================
@@ -101,8 +112,23 @@ public class SigninActivity extends BaseActivity implements SigninView {
     // ==========================================================================
 
     @Override
+    public void switchViews(final ViewSwitch viewSwitch) {
+        mUserNameView.requestFocus();
+        if (viewSwitch.equals(ViewSwitch.REGISTER)) {
+            mPassword2View.setVisibility(View.VISIBLE);
+            mActionButton.setText(R.string.action_register);
+            mSwitchButton.setText(R.string.action_switch_to_signin);
+        } else {
+            mPassword2View.setVisibility(View.GONE);
+            mActionButton.setText(R.string.action_signin);
+            mSwitchButton.setText(R.string.action_switch_to_register);
+        }
+    }
+
+    @Override
     public void showProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        final int shortAnimTime = getResources()
+                .getInteger(android.R.integer.config_shortAnimTime);
 
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         mLoginFormView.animate().setDuration(shortAnimTime).alpha(
@@ -124,7 +150,7 @@ public class SigninActivity extends BaseActivity implements SigninView {
     }
 
     @Override
-    public void showNoConnection(boolean show) {
+    public void showNoConnection(final boolean show) {
         if (show) {
             super.showMessage(R.string.no_connection);
         }
@@ -137,13 +163,13 @@ public class SigninActivity extends BaseActivity implements SigninView {
     }
 
     @Override
-    public void setEmptyEmailError() {
+    public void setEmptyUserNameError() {
         mUserNameView.setError(getString(R.string.error_field_required));
         mUserNameView.requestFocus();
     }
 
     @Override
-    public void setInvalidEmailError() {
+    public void setInvalidUserNameError() {
         mUserNameView.setError(getString(R.string.error_invalid_username));
         mUserNameView.requestFocus();
     }
@@ -151,6 +177,24 @@ public class SigninActivity extends BaseActivity implements SigninView {
     @Override
     public void setEmptyPasswordError() {
         mPasswordView.setError(getString(R.string.error_field_required));
+        mPasswordView.requestFocus();
+    }
+
+    @Override
+    public void setDifferentPasswordsError() {
+        mPasswordView.setError(getString(R.string.error_different_passwords));
+        mPasswordView.requestFocus();
+    }
+
+    @Override
+    public void setInvalidPasswordError() {
+        mPasswordView.setError(getString(R.string.error_invalid_password));
+        mPasswordView.requestFocus();
+    }
+
+    @Override
+    public void setAuthFailedError() {
+        mPasswordView.setError(getString(R.string.error_auth_failed));
         mPasswordView.requestFocus();
     }
 }

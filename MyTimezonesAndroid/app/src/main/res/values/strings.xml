@@ -1,15 +1,25 @@
 <resources>
     <string name="app_name">My Timezones</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_username">User name</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_username">This user name is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <!-- Common -->
     <string name="unexpected_error">Oops! Something went wrong!</string>
     <string name="no_connection">No connection</string>
+
+    <!-- Strings related to login -->
+    <!-- Labels & hints -->
+    <string name="prompt_username">User name</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_password2">Repeat password</string>
+    <string name="action_signin">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="action_switch_to_signin">Already registered?</string>
+    <string name="action_switch_to_register">Not registered yet?</string>
+
+    <!-- Errors -->
+    <string name="error_invalid_username">User name is too short. Use at least 4 characters</string>
+    <string name="error_invalid_password">Password is too short. Use at least 4 characters</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_different_passwords">Passwords do not match</string>
+    <string name="error_auth_failed">Username and password do not match</string>
+
 </resources>
