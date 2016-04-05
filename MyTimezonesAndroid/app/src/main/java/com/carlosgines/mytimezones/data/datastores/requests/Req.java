@@ -5,12 +5,15 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public interface FgReq {
+/**
+ * Request sent by MyTimezones app
+ */
+public interface Req {
 
     /**
-     * @return the webservice function name
+     * @return the route use to call Rest API
      */
-    String getWsFuncName();
+    String getRoute();
 
     /**
      * Build the JSONObject for the request from the foreground activity

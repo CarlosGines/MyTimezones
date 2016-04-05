@@ -2,53 +2,71 @@ package com.carlosgines.mytimezones.data.datastores.requests;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SigninReq implements FgReq {
+import java.util.concurrent.ExecutionException;
 
-    // ==========================================================================
+public class SigninReq implements Req {
+
+    // ========================================================================
     // Member variables
-    // ==========================================================================
+    // ========================================================================
 
-    private String mUserName;
-    private String mPassword;
+    private final String mUserName;
+    private final String mPassword;
 
-    // ==========================================================================
-    // Public methods
-    // ==========================================================================
+    // ========================================================================
+    // Member variables
+    // ========================================================================
 
-    public String signin(Context ctx, String username, String password) {
-        mUserName = username;
+    public SigninReq(String userName, String password) {
+        mUserName = userName;
         mPassword = password;
-        JSONObject response = ReqAdapter.sendFgReq(ctx, this);
+    }
+
+    // ========================================================================
+    // Public methods
+    // ========================================================================
+
+    public String signin(final Context ctx) {
         try {
-            return response.getString(Contract.RES_TOKEN);
+            return ReqAdapter.sendFgReq(ctx, this)
+                    .getString(Contract.RES_TOKEN);
+        } catch (ExecutionException e) {
+            final Throwable cause = e.getCause();
+            if (cause instanceof AuthFailureError) {
+                return "";
+            } else {
+                ReqAdapter.handleExecutionException(e, getRoute());
+                throw null;
+            }
         } catch (JSONException e) {
-            throw new RuntimeException("JSON exception at " + getWsFuncName(), e);
+            throw new RuntimeException("JSON exception at " + getRoute(), e);
         }
     }
 
-    // ==========================================================================
+    // ========================================================================
     // FgReq implementation
-    // ==========================================================================
+    // ========================================================================
 
     @Override
-    public String getWsFuncName() {
-        return Contract.WS;
+    public String getRoute() {
+        return Contract.ROUTE;
     }
 
     @Override
     public JSONObject getJsonRequest() throws JSONException {
         // Build the JSON object to post
-        final JSONObject jsonRequest = new JSONObject();
-        jsonRequest.put(Contract.REQ_USERNAME, mUserName);
-        jsonRequest.put(Contract.REQ_PASSWORD, mPassword);
-        return jsonRequest;
+        return new JSONObject()
+                .put(Contract.REQ_USERNAME, mUserName)
+                .put(Contract.REQ_PASSWORD, mPassword);
     }
 
     @Override
-    public boolean isExpectedError(int errorCode) {
+    public boolean isExpectedError(int statusCode) {
         return false;
     }
 
@@ -56,9 +74,9 @@ public class SigninReq implements FgReq {
     public void handleExpectedError(Context ctx, int errorCode) {
     }
 
-    // ==========================================================================
+    // ========================================================================
     // Request contract
-    // ==========================================================================
+    // ========================================================================
 
     /**
      * Request contract
@@ -66,7 +84,7 @@ public class SigninReq implements FgReq {
     public static abstract class Contract {
 
         // Url suffix for the webservice call
-        private static final String WS = "signin";
+        private static final String ROUTE = "signin";
 
         // Request input params
         private static final String REQ_USERNAME = "username";

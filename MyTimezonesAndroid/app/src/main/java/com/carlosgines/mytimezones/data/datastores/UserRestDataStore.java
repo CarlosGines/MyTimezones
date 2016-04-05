@@ -17,7 +17,7 @@ public class UserRestDataStore {
     /**
      * A context
      */
-    private Context mCtx;
+    private final Context mCtx;
 
     // ==========================================================================
     // Constructor
@@ -32,8 +32,7 @@ public class UserRestDataStore {
     // DecDataStore implementation
     // ==========================================================================
 
-    public String signin(String email, String password) {
-        SigninReq signinReq = new SigninReq();
-        return signinReq.signin(mCtx, email, password);
+    public String signin(final String userName, final String password) {
+        return new SigninReq(userName, password).signin(mCtx);
     }
 }

@@ -20,137 +20,94 @@ import java.util.concurrent.TimeoutException;
 
 public class ReqAdapter {
 
-    // ==========================================================================
+    // ========================================================================
     // Constants
-    // ==========================================================================
-
-    // Generic response JSON keys
-    public static final String RES_SUCCESS = "success";
-    public static final String RES_ERROR_CODE = "error_code";
-    public static final String RES_ERROR_MESSAGE = "error_message";
+    // ========================================================================
 
     /**
      * Error code for expected error of no connection
      */
     public static final int NO_CONNECT_ERROR_CODE = -1;
 
-    // ==========================================================================
+    // ========================================================================
     // Public methods
-    // ==========================================================================
+    // ========================================================================
 
     /**
-     * Send a volley request in foreground mode. Not in use yet, synchrony stuff.
+     * Send a synchronous volley request.
      */
-    public static JSONObject sendFgReq(final Context ctx, final FgReq fgReq) {
-        final String wsFuncName = fgReq.getWsFuncName();
-
+    public static JSONObject sendFgReq(final Context ctx, final Req req)
+            throws ExecutionException {
+        final String route = req.getRoute();
         try {
-            // Get specific json request parameters
-            final JSONObject jsonRequest = fgReq.getJsonRequest();
-            // Create the future request
-            final RequestFuture<JSONObject> future = prepareReq(ctx, jsonRequest, wsFuncName);
-            // Launch request
-            final JSONObject response = future.get(30, TimeUnit.SECONDS);
-            // Process the response
-            return onFgReqResponse(ctx, fgReq, response);
-
+            final JSONObject response = prepareReq(
+                    ctx, req.getJsonRequest(), route
+            ).get(30, TimeUnit.SECONDS);
+            Log.d(req.getRoute(), "Response:\n" + response.toString(4));
+            return response;
         } catch (JSONException e) {
-            // At getJsonRequest. Expected error during development. Print debug info.
-            throw new RuntimeException("JSON exception at " + wsFuncName, e);
+            throw new RuntimeException("JSONException at " + route, e);
         } catch (TimeoutException e) {
-            // Request timed out
-            throw new RuntimeException(e);
+            throw new RuntimeException("TimeoutException at: " + route, e);
         } catch (InterruptedException e) {
-            throw new RuntimeException("InterruptedException in " + wsFuncName + " RequestFuture", e);
-        } catch (ExecutionException e) {
-            // No connection or server error
-            final Throwable cause = e.getCause();
-
-            if (cause instanceof NoConnectionError) {
-                throw new RuntimeException(cause);
-            } else if (cause instanceof ServerError) {
-                // Something went wrong in server.
-                final String code = getStatusCode((ServerError) cause);
-                final String message = "ERROR " + code + " on " + wsFuncName + ": " +
-                        e.getClass().getSimpleName() + " - " + cause.getMessage();
-                Log.e(wsFuncName, message + getBody((ServerError) cause));
-                throw new RuntimeException(
-                        message, new ServerResponseException(code, message)
-                );
-            } else if (cause instanceof ParseError) {
-                throw new RuntimeException("Volley parsing exception", e);
-            } else {
-                throw new RuntimeException("Unknown ExecutionException", e);
-            }
+            throw new RuntimeException("InterruptedException at " + route, e);
         }
     }
 
-    // ==========================================================================
+    // ========================================================================
     // Private methods
-    // ==========================================================================
+    // ========================================================================
 
     /**
      * Actually perform volley request sending
      */
-    private static RequestFuture<JSONObject> prepareReq(
-            Context ctx, JSONObject jsonRequest, String wsFuncName) throws JSONException {
-        // Build the URL
-        Uri.Builder uriBuilder = new Uri.Builder();
-        uriBuilder.encodedPath(VolleyAdapter.getBaseUrl());
-        uriBuilder.appendEncodedPath(wsFuncName);
-
-        // Create the future request
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest volleyReq = new JsonObjectRequest(
-                Request.Method.POST, uriBuilder.toString(), jsonRequest, future, future);
-
-        // Launch the request
-        VolleyAdapter volley = VolleyAdapter.getInstance(ctx);
-        volley.addToRequestQueue(volleyReq);
-
-        Log.d(wsFuncName, "Sending request to: " + uriBuilder + "\n" + jsonRequest);
-
+    private static RequestFuture<JSONObject> prepareReq(final Context ctx,
+            final JSONObject jsonRequest, final String route)
+            throws JSONException {
+        final Uri.Builder uriBuilder = new Uri.Builder()
+                .encodedPath(VolleyAdapter.getBaseUrl())
+                .appendEncodedPath(route);
+        final RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        VolleyAdapter.getInstance(ctx).addToRequestQueue(
+                new JsonObjectRequest(
+                        Request.Method.POST,
+                        uriBuilder.toString(),
+                        jsonRequest,
+                        future,
+                        future
+                )
+        );
+        Log.d(route, "Sending request to: " + uriBuilder + "\n" + jsonRequest);
         return future;
     }
 
-    private static JSONObject onFgReqResponse(Context ctx, FgReq fgReq, JSONObject response)
-            throws JSONException {
-        // Debug log
-        String wsFuncName = fgReq.getWsFuncName();
-        Log.d(wsFuncName, "Request responded with:\n" + response.toString(4));
-        // Check if it is a successful response
-        if (response.getBoolean(RES_SUCCESS)) {
-            return response;
-        } else {
-            int errorCode = response.getInt(RES_ERROR_CODE);
-            if (fgReq.isExpectedError(errorCode)) {
-                // Expected error, handle it.
-                fgReq.handleExpectedError(ctx, errorCode);
-                throw new RuntimeException("Expected Error");
-            } else {
-                // Unexpected error.
-                String code = "D" + errorCode;
-                String message = "ERROR " + code + " on " + wsFuncName + ": " +
-                        response.getString(RES_ERROR_MESSAGE);
-                throw new RuntimeException(
-                        message, new ServerResponseException(code, message)
-                );
-            }
-        }
-    }
-
-    // ==========================================================================
+    // ========================================================================
     // Helper methods
-    // ==========================================================================
+    // ========================================================================
 
-    private static String getStatusCode(final ServerError e) {
-        final String code;
+    public static int getStatusCode(final ServerError e) {
+        final int code;
         if (e.networkResponse != null) {
-            code = "H" + e.networkResponse.statusCode;
+            code = e.networkResponse.statusCode;
         } else {
-            code = "H000";
+            code = 0;
         }
         return code;
+    }
+
+    public static void handleExecutionException(ExecutionException e,
+            String route) {
+        final Throwable cause = e.getCause();
+        if (cause instanceof NoConnectionError) {
+            throw new RuntimeException("NoConnectionError at " + route, cause);
+        } else if (cause instanceof ServerError) {
+            throw new RuntimeException("ServerError at " + route, cause);
+        } else if (cause instanceof ParseError) {
+            throw new RuntimeException("Volley ParseError at " + route, cause);
+        } else {
+            throw new RuntimeException("Unknown ExecutionException at " +
+                    route, e);
+        }
     }
 
     private static String getBody(ServerError e) {

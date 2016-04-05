@@ -13,13 +13,13 @@ public class ServerResponseException extends RuntimeException {
     // Member variables
     // ==========================================================================
 
-    private String mCode;
+    private int mCode;
 
     // ==========================================================================
     // Constructor
     // ==========================================================================
 
-    public ServerResponseException(String code, String detailMessage) {
+    public ServerResponseException(int code, String detailMessage) {
         super(detailMessage);
         mCode = code;
     }
@@ -33,7 +33,7 @@ public class ServerResponseException extends RuntimeException {
      * H -> HTML error
      * 3 digits -> error code, either HTML or from server logic
      */
-    public String getErrorCode() {
+    public int getStatusCode() {
         return mCode;
     }
 }
