@@ -42,16 +42,16 @@ public class SigninPresenter {
         mView = view;
     }
 
-    public void onSigninClick(String email, String password) {
-        attemptLogin(email, password);
+    public void onSigninClick(String username, String password) {
+        attemptLogin(username, password);
     }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin(final String email, final String password) {
+    private void attemptLogin(final String username, final String password) {
         //TODO Add check of login already in progress
 
         // Reset errors.
@@ -60,12 +60,12 @@ public class SigninPresenter {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        // Check for a valid username address.
+        if (TextUtils.isEmpty(username)) {
             mView.setEmptyEmailError();
             return;
         }
-        if (!isEmailValid(email)) {
+        if (!isUserNameValid(username)) {
             mView.setInvalidEmailError();
             return;
         }
@@ -79,12 +79,12 @@ public class SigninPresenter {
         // perform the user login attempt.
         mView.showProgress(true);
 
-        mSigninUseCase.execute(email, password, new SigninSubscriber(mView));
+        mSigninUseCase.execute(username, password, new SigninSubscriber(mView));
     }
 
-    private boolean isEmailValid(String email) {
+    private boolean isUserNameValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("");
     }
 
     private boolean isPasswordValid(String password) {

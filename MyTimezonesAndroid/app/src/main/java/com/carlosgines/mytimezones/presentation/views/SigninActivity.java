@@ -34,8 +34,8 @@ public class SigninActivity extends BaseActivity implements SigninView {
     SigninPresenter mPresenter;
 
     // UI references.
-    @Bind(R.id.email)
-    EditText mEmailView;
+    @Bind(R.id.username)
+    EditText mUserNameView;
     @Bind(R.id.password)
     EditText mPasswordView;
     @Bind(R.id.login_progress)
@@ -68,7 +68,7 @@ public class SigninActivity extends BaseActivity implements SigninView {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    mPresenter.onSigninClick(mEmailView.getText().toString(),
+                    mPresenter.onSigninClick(mUserNameView.getText().toString(),
                             mPasswordView.getText().toString());
                     return true;
                 }
@@ -92,7 +92,7 @@ public class SigninActivity extends BaseActivity implements SigninView {
 
     @OnClick(R.id.email_sign_in_button)
     public void onSigninClick() {
-        mPresenter.onSigninClick(mEmailView.getText().toString(),
+        mPresenter.onSigninClick(mUserNameView.getText().toString(),
                 mPasswordView.getText().toString());
     }
 
@@ -132,20 +132,20 @@ public class SigninActivity extends BaseActivity implements SigninView {
 
     @Override
     public void resetErrors() {
-        mEmailView.setError(null);
+        mUserNameView.setError(null);
         mPasswordView.setError(null);
     }
 
     @Override
     public void setEmptyEmailError() {
-        mEmailView.setError(getString(R.string.error_field_required));
-        mEmailView.requestFocus();
+        mUserNameView.setError(getString(R.string.error_field_required));
+        mUserNameView.requestFocus();
     }
 
     @Override
     public void setInvalidEmailError() {
-        mEmailView.setError(getString(R.string.error_invalid_email));
-        mEmailView.requestFocus();
+        mUserNameView.setError(getString(R.string.error_invalid_username));
+        mUserNameView.requestFocus();
     }
 
     @Override

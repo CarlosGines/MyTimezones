@@ -11,15 +11,15 @@ public class SigninReq implements FgReq {
     // Member variables
     // ==========================================================================
 
-    private String mEmail;
+    private String mUserName;
     private String mPassword;
 
     // ==========================================================================
     // Public methods
     // ==========================================================================
 
-    public String signin(Context ctx, String email, String password) {
-        mEmail = email;
+    public String signin(Context ctx, String username, String password) {
+        mUserName = username;
         mPassword = password;
         JSONObject response = ReqAdapter.sendFgReq(ctx, this);
         try {
@@ -42,7 +42,7 @@ public class SigninReq implements FgReq {
     public JSONObject getJsonRequest() throws JSONException {
         // Build the JSON object to post
         final JSONObject jsonRequest = new JSONObject();
-        jsonRequest.put(Contract.REQ_EMAIL, mEmail);
+        jsonRequest.put(Contract.REQ_USERNAME, mUserName);
         jsonRequest.put(Contract.REQ_PASSWORD, mPassword);
         return jsonRequest;
     }
@@ -69,7 +69,7 @@ public class SigninReq implements FgReq {
         private static final String WS = "signin";
 
         // Request input params
-        private static final String REQ_EMAIL = "email";
+        private static final String REQ_USERNAME = "username";
         private static final String REQ_PASSWORD = "password";
 
         // Response output params
