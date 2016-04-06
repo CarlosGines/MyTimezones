@@ -22,5 +22,6 @@
     <string name="error_different_passwords">Passwords do not match</string>
     <string name="error_duplicate_username">User name already registered</string>
     <string name="error_auth_failed">User name and password do not match</string>
+    <string name="title_activity_tz_list">My timezones</string>
 
 </resources>
