@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-public class SigninReq implements Req {
+public class SigninReq extends Req {
 
     // ========================================================================
     // Member variables
@@ -34,14 +34,13 @@ public class SigninReq implements Req {
 
     public String signin(final Context ctx) {
         try {
-            return ReqAdapter.sendReq(ctx, this)
-                    .getString(Contract.RES_TOKEN);
+            return super.send(ctx).getString(Contract.RES_TOKEN);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
             if (cause instanceof AuthFailureError) {
                 return "";
             } else {
-                ReqAdapter.handleExecutionException(e, getRoute());
+                super.handleExecutionException(e);
                 throw null;
             }
         } catch (JSONException e) {
@@ -50,7 +49,7 @@ public class SigninReq implements Req {
     }
 
     // ========================================================================
-    // FgReq implementation
+    // Req implementation
     // ========================================================================
 
     @Override
@@ -65,19 +64,9 @@ public class SigninReq implements Req {
 
     @Override
     public JSONObject getJsonRequest() throws JSONException {
-        // Build the JSON object to post
         return new JSONObject()
                 .put(Contract.REQ_USERNAME, mUserName)
                 .put(Contract.REQ_PASSWORD, mPassword);
-    }
-
-    @Override
-    public boolean isExpectedError(int statusCode) {
-        return false;
-    }
-
-    @Override
-    public void handleExpectedError(Context ctx, int errorCode) {
     }
 
     // ========================================================================
@@ -89,14 +78,11 @@ public class SigninReq implements Req {
      */
     public static abstract class Contract {
 
-        // Url suffix for the webservice call
         private static final String ROUTE = "signin";
 
-        // Request input params
         private static final String REQ_USERNAME = "username";
         private static final String REQ_PASSWORD = "password";
 
-        // Response output params
         private static final String RES_TOKEN = "token";
     }
 }

@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-public class CreateTzReq implements Req {
+public class CreateTzReq extends Req {
 
     // ========================================================================
     // Constants
@@ -27,7 +27,7 @@ public class CreateTzReq implements Req {
     private final Timezone mTz;
 
     // ========================================================================
-    // Member variables
+    // Constructor
     // ========================================================================
 
     public CreateTzReq(final Timezone tz) {
@@ -40,9 +40,9 @@ public class CreateTzReq implements Req {
 
     public void createTz(final Context ctx) {
         try {
-            ReqAdapter.sendReq(ctx, this);
+            send(ctx);
         } catch (ExecutionException e) {
-            ReqAdapter.handleExecutionException(e, getRoute());
+            handleExecutionException(e);
         }
     }
 
@@ -65,14 +65,5 @@ public class CreateTzReq implements Req {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JsonOrgModule());
         return mapper.convertValue(mTz, JSONObject.class);
-    }
-
-    @Override
-    public boolean isExpectedError(int statusCode) {
-        return false;
-    }
-
-    @Override
-    public void handleExpectedError(Context ctx, int errorCode) {
     }
 }

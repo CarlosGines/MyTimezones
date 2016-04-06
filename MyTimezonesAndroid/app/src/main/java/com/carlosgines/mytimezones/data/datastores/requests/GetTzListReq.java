@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class GetTzListReq implements Req {
+public class GetTzListReq extends Req {
 
     // ========================================================================
     // Constants
@@ -31,11 +31,11 @@ public class GetTzListReq implements Req {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JsonOrgModule());
             return mapper.convertValue(
-                    ReqAdapter.sendReq(ctx, this),
+                    send(ctx),
                     new TypeReference<List<Timezone>>(){}
             );
         } catch (ExecutionException e) {
-            ReqAdapter.handleExecutionException(e, getRoute());
+            handleExecutionException(e);
             throw null;
         }
     }
@@ -57,14 +57,5 @@ public class GetTzListReq implements Req {
     @Override
     public JSONObject getJsonRequest() throws JSONException {
         return null;
-    }
-
-    @Override
-    public boolean isExpectedError(int statusCode) {
-        return false;
-    }
-
-    @Override
-    public void handleExpectedError(Context ctx, int errorCode) {
     }
 }

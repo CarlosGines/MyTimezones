@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-public class RegisterReq implements Req {
+public class RegisterReq extends Req {
 
     // ========================================================================
     // Member variables
@@ -20,7 +20,7 @@ public class RegisterReq implements Req {
     private final String mPassword;
 
     // ========================================================================
-    // Member variables
+    // Constructor
     // ========================================================================
 
     public RegisterReq(final String userName, final String password) {
@@ -34,15 +34,14 @@ public class RegisterReq implements Req {
 
     public String register(final Context ctx) {
         try {
-            return ReqAdapter.sendReq(ctx, this)
-                    .getString(Contract.RES_TOKEN);
+            return send(ctx).getString(Contract.RES_TOKEN);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
             if (cause instanceof ServerError &&
-                    ReqAdapter.getStatusCode((ServerError) cause) == 409) {
+                    getStatusCode((ServerError) cause) == 409) {
                 return "";
             } else {
-                ReqAdapter.handleExecutionException(e, getRoute());
+                handleExecutionException(e);
                 throw null;
             }
         } catch (JSONException e) {
@@ -51,7 +50,7 @@ public class RegisterReq implements Req {
     }
 
     // ========================================================================
-    // FgReq implementation
+    // Req implementation
     // ========================================================================
 
     @Override
@@ -66,38 +65,22 @@ public class RegisterReq implements Req {
 
     @Override
     public JSONObject getJsonRequest() throws JSONException {
-        // Build the JSON object to post
         return new JSONObject()
                 .put(Contract.REQ_USERNAME, mUserName)
                 .put(Contract.REQ_PASSWORD, mPassword);
-    }
-
-    @Override
-    public boolean isExpectedError(int statusCode) {
-        return false;
-    }
-
-    @Override
-    public void handleExpectedError(Context ctx, int errorCode) {
     }
 
     // ========================================================================
     // Request contract
     // ========================================================================
 
-    /**
-     * Request contract
-     */
     public static abstract class Contract {
 
-        // Url suffix for the webservice call
         private static final String ROUTE = "register";
 
-        // Request input params
         private static final String REQ_USERNAME = "username";
         private static final String REQ_PASSWORD = "password";
 
-        // Response output params
         private static final String RES_TOKEN = "token";
     }
 }
