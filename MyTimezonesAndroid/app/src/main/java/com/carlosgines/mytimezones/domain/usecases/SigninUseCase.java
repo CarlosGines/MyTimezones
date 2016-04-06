@@ -14,44 +14,49 @@ import rx.Subscriber;
  */
 public class SigninUseCase extends UseCase {
 
-    // ==========================================================================
+    // ========================================================================
     // Member variables
-    // ==========================================================================
+    // ========================================================================
 
     private String mUserName;
     private String mPassword;
     private final UserRepository mUserRepository;
 
-    // ==========================================================================
+    // ========================================================================
     // Constructor
-    // ==========================================================================
+    // ========================================================================
 
     @Inject
-    public SigninUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
+    public SigninUseCase(UserRepository userRepository,
+                         ThreadExecutor threadExecutor,
                          PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
 
-    // ==========================================================================
+    // ========================================================================
     // Public methods
-    // ==========================================================================
+    // ========================================================================
 
-    public void execute(final String userName, final String password, Subscriber subscriber) {
+    public void execute(final String userName, final String password,
+                        Subscriber subscriber) {
         mUserName = userName;
         mPassword = password;
         super.execute(subscriber);
     }
-    // ==========================================================================
+    // ========================================================================
     // UseCase methods
-    // ==========================================================================
+    // ========================================================================
 
     @Override
     protected Observable buildUseCaseObservable() {
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
-                final String token = mUserRepository.signin(mUserName, mPassword);
+                final String token = mUserRepository.signin(
+                        mUserName,
+                        mPassword
+                );
                 if (token.isEmpty()) {
                     subscriber.onNext(false);
                     subscriber.onCompleted();

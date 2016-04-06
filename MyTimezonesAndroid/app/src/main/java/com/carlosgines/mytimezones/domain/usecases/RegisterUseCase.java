@@ -14,37 +14,39 @@ import rx.Subscriber;
  */
 public class RegisterUseCase extends UseCase {
 
-    // ==========================================================================
+    // ========================================================================
     // Member variables
-    // ==========================================================================
+    // ========================================================================
 
     private String mUserName;
     private String mPassword;
     private final UserRepository mUserRepository;
 
-    // ==========================================================================
+    // ========================================================================
     // Constructor
-    // ==========================================================================
+    // ========================================================================
 
     @Inject
-    public RegisterUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
+    public RegisterUseCase(UserRepository userRepository,
+                           ThreadExecutor threadExecutor,
                            PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
 
-    // ==========================================================================
+    // ========================================================================
     // Public methods
-    // ==========================================================================
+    // ========================================================================
 
-    public void execute(final String userName, final String password, Subscriber subscriber) {
+    public void execute(final String userName, final String password,
+                        Subscriber subscriber) {
         mUserName = userName;
         mPassword = password;
         super.execute(subscriber);
     }
-    // ==========================================================================
+    // ========================================================================
     // UseCase methods
-    // ==========================================================================
+    // ========================================================================
 
     @Override
     protected Observable buildUseCaseObservable() {
