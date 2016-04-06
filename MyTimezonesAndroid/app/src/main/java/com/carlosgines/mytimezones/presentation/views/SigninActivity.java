@@ -26,9 +26,9 @@ import butterknife.OnClick;
  */
 public class SigninActivity extends BaseActivity implements SigninView {
 
-    // ==========================================================================
+    // ========================================================================
     // Member variables
-    // ==========================================================================
+    // ========================================================================
 
     @Inject
     SigninPresenter mPresenter;
@@ -49,9 +49,9 @@ public class SigninActivity extends BaseActivity implements SigninView {
     @Bind(R.id.switch_signin_register)
     Button mSwitchButton;
 
-    // ==========================================================================
+    // ========================================================================
     // Activity lifecycle methods
-    // ==========================================================================
+    // ========================================================================
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -81,7 +81,6 @@ public class SigninActivity extends BaseActivity implements SigninView {
         mPassword2View.setOnEditorActionListener(listener);
     }
 
-    // Initializes injector and inject
     private void initInjector() {
         DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
@@ -89,9 +88,9 @@ public class SigninActivity extends BaseActivity implements SigninView {
                 .build().inject(this);
     }
 
-    // ==========================================================================
+    // ========================================================================
     // User input
-    // ==========================================================================
+    // ========================================================================
 
     @OnClick(R.id.action_button)
     public void onActionClick() {
@@ -107,9 +106,9 @@ public class SigninActivity extends BaseActivity implements SigninView {
         mPresenter.onSwitchClick();
     }
 
-    // ==========================================================================
+    // ========================================================================
     // SigninView implementation
-    // ==========================================================================
+    // ========================================================================
 
     @Override
     public void switchViews(final ViewSwitch viewSwitch) {

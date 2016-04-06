@@ -10,10 +10,9 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * This is an implementation UseCase that checks if there is a known
- * authenticated user.
+ * This is an implementation UseCase that sign the user out.
  */
-public class CheckAuthUseCase extends UseCase {
+public class SignoutUseCase extends UseCase {
 
     // ==========================================================================
     // Member variables
@@ -26,8 +25,8 @@ public class CheckAuthUseCase extends UseCase {
     // ==========================================================================
 
     @Inject
-    public CheckAuthUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
-                            PostExecutionThread postExecutionThread) {
+    public SignoutUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
+                          PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
@@ -39,7 +38,7 @@ public class CheckAuthUseCase extends UseCase {
     public void execute(Subscriber subscriber) {
         super.execute(subscriber);
     }
-
+    
     // ==========================================================================
     // UseCase methods
     // ==========================================================================
@@ -49,7 +48,7 @@ public class CheckAuthUseCase extends UseCase {
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
-                subscriber.onNext(!mUserRepository.getToken().isEmpty());
+                mUserRepository.signout();
                 subscriber.onCompleted();
             }
         });

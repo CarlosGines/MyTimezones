@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.carlosgines.mytimezones.presentation.views.LauncherActivity;
 import com.carlosgines.mytimezones.presentation.views.SigninActivity;
+import com.carlosgines.mytimezones.presentation.views.TzListActivity;
 
 import dagger.Component;
 
@@ -18,6 +19,7 @@ import dagger.Component;
 public interface ActivityComponent {
     void inject(LauncherActivity launcherActivity);
     void inject(SigninActivity signinActivity);
+    void inject(TzListActivity tzListActivity);
 
     //Exposed to sub-graphs.
     Activity activity();

@@ -34,4 +34,9 @@ public interface UserRepository {
      * @return the user auth token or empty String if none.
      */
     String getToken();
+
+    /**
+     * Unregister user auth token.
+     */
+    void signout();
 }

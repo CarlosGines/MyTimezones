@@ -40,4 +40,9 @@ public class UserDataRepository implements UserRepository {
     public String getToken() {
         return mSpDataStore.getToken();
     }
+
+    @Override
+    public void signout() {
+        mSpDataStore.deleteToken();
+    }
 }

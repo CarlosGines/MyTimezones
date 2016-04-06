@@ -22,12 +22,12 @@ public class LauncherActivity extends BaseActivity implements LauncherView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        hideActionBar();
+        initViews();
         initInjector();
         mPresenter.onInit();
     }
 
-    private void hideActionBar() {
+    private void initViews() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();

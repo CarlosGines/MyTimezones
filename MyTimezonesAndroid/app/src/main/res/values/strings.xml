@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">My Timezones</string>
 
+    <!-- ****** -->
     <!-- Common -->
+    <!-- ****** -->
+
     <string name="unexpected_error">Oops! Something went wrong!</string>
     <string name="no_connection">No connection</string>
 
-    <!-- Strings related to login -->
+    <!-- *************** -->
+    <!-- Signin Activity -->
+    <!-- *************** -->
+
     <!-- Labels & hints -->
     <string name="prompt_username">User name</string>
     <string name="prompt_password">Password</string>
@@ -22,6 +28,12 @@
     <string name="error_different_passwords">Passwords do not match</string>
     <string name="error_duplicate_username">User name already registered</string>
     <string name="error_auth_failed">User name and password do not match</string>
+
+    <!-- ************** -->
+    <!-- TzListActivity -->
+    <!-- ************** -->
+
     <string name="title_activity_tz_list">My timezones</string>
+    <string name="action_signout">Sign out</string>
 
 </resources>

@@ -1,10 +1,6 @@
 package com.carlosgines.mytimezones.data.datastores;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.carlosgines.mytimezones.data.datastores.requests.RegisterReq;
-import com.carlosgines.mytimezones.data.datastores.requests.SigninReq;
 
 import javax.inject.Inject;
 
@@ -59,5 +55,12 @@ public class SharedPreferencesDataStore {
     public String getToken() {
         return mCtx.getSharedPreferences(DEFAULT_PREFS, Context.MODE_PRIVATE)
                 .getString(PREFS_TOKEN, "");
+    }
+
+    public void deleteToken() {
+        mCtx.getSharedPreferences(DEFAULT_PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .remove(PREFS_TOKEN)
+                .apply();
     }
 }
