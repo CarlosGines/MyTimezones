@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.carlosgines.mytimezones.domain.usecases.RegisterUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SigninUseCase;
+import com.carlosgines.mytimezones.presentation.Navigator;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,11 @@ public class SigninPresenter {
      */
     private final SigninView mView;
 
+    /**
+     * Navigator
+     */
+    private final Navigator mNavigator;
+
     // Use cases:
     private final SigninUseCase mSigninUseCase;
     private final RegisterUseCase mRegisterUseCase;
@@ -35,9 +41,11 @@ public class SigninPresenter {
 
     @Inject
     public SigninPresenter(final SigninView view,
+                           final Navigator navigator,
                            final SigninUseCase signinUseCase,
                            final RegisterUseCase registerUseCase) {
         mView = view;
+        mNavigator= navigator;
         mSigninUseCase = signinUseCase;
         mRegisterUseCase = registerUseCase;
     }
@@ -165,7 +173,7 @@ public class SigninPresenter {
             if(TextUtils.isEmpty(token)) {
                 mView.setAuthFailedError();
             } else {
-                mView.showMessage("Signed in! Token: " + token);
+                mNavigator.navigateToTzListActivity();
             }
         }
 
@@ -190,7 +198,7 @@ public class SigninPresenter {
             if(TextUtils.isEmpty(token)) {
                 mView.setDuplicateUserNameError();
             } else {
-                mView.showMessage("Registered! Token: " + token);
+                mNavigator.navigateToTzListActivity();
             }
         }
 
