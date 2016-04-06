@@ -35,4 +35,9 @@ public class UserDataRepository implements UserRepository {
     public void registerToken(final String token) {
         mSpDataStore.registerToken(token);
     }
+
+    @Override
+    public String getToken() {
+        return mSpDataStore.getToken();
+    }
 }

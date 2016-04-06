@@ -55,4 +55,9 @@ public class SharedPreferencesDataStore {
                 .putString(PREFS_TOKEN, token)
                 .apply();
     }
+
+    public String getToken() {
+        return mCtx.getSharedPreferences(DEFAULT_PREFS, Context.MODE_PRIVATE)
+                .getString(PREFS_TOKEN, "");
+    }
 }

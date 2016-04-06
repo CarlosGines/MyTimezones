@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.carlosgines.mytimezones.presentation.di.PerActivity;
+import com.carlosgines.mytimezones.presentation.presenters.SigninView;
+import com.carlosgines.mytimezones.presentation.views.SigninActivity;
 import com.carlosgines.mytimezones.presentation.views.TzListActivity;
 
 import javax.inject.Inject;
@@ -25,7 +27,15 @@ public class Navigator {
         mActivity.finish();
     }
 
+    public void navigateToSigninActivity() {
+        Intent i = new Intent(mActivity, SigninActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        mActivity.startActivity(i);
+    }
+
     public void navigateToTzListActivity() {
-        mActivity.startActivity(new Intent(mActivity, TzListActivity.class));
+        Intent i = new Intent(mActivity, TzListActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        mActivity.startActivity(i);
     }
 }

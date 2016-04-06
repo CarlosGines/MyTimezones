@@ -1,7 +1,7 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
 /**
- * Created by efrel on 4/4/16.
+ * View for Sign in screen
  */
 public interface SigninView extends BaseView{
 

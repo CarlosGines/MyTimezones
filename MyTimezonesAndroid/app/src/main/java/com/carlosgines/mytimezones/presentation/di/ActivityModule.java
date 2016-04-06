@@ -2,6 +2,7 @@ package com.carlosgines.mytimezones.presentation.di;
 
 import android.app.Activity;
 
+import com.carlosgines.mytimezones.presentation.presenters.LauncherView;
 import com.carlosgines.mytimezones.presentation.presenters.SigninView;
 
 import dagger.Module;
@@ -26,6 +27,12 @@ public class ActivityModule {
     @PerActivity
     Activity provideActivity() {
         return this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    LauncherView provideLauncherView() {
+        return (LauncherView)this.activity;
     }
 
     @Provides

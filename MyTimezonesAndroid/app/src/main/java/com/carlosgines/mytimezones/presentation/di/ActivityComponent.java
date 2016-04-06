@@ -2,6 +2,7 @@ package com.carlosgines.mytimezones.presentation.di;
 
 import android.app.Activity;
 
+import com.carlosgines.mytimezones.presentation.views.LauncherActivity;
 import com.carlosgines.mytimezones.presentation.views.SigninActivity;
 
 import dagger.Component;
@@ -15,6 +16,7 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
+    void inject(LauncherActivity launcherActivity);
     void inject(SigninActivity signinActivity);
 
     //Exposed to sub-graphs.
