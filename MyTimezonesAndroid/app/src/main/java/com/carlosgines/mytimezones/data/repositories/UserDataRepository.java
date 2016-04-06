@@ -1,12 +1,10 @@
 package com.carlosgines.mytimezones.data.repositories;
 
+import com.carlosgines.mytimezones.data.datastores.SharedPreferencesDataStore;
 import com.carlosgines.mytimezones.data.datastores.UserRestDataStore;
 import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 
 import javax.inject.Inject;
-
-import rx.Observable;
-import rx.Subscriber;
 
 /**
  * A UserRepository for managing user data.
@@ -14,35 +12,27 @@ import rx.Subscriber;
 public class UserDataRepository implements UserRepository {
 
     private final UserRestDataStore mUserRestDataStore;
+    private final SharedPreferencesDataStore mSpDataStore;
 
     @Inject
-    public UserDataRepository(UserRestDataStore userDataRepository) {
+    public UserDataRepository(SharedPreferencesDataStore spDataStore,
+                              UserRestDataStore userDataRepository) {
         mUserRestDataStore = userDataRepository;
+        mSpDataStore = spDataStore;
     }
 
     @Override
-    public Observable<String> signin(final String userName,
-                                     final String password) {
-        return Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext(
-                        mUserRestDataStore.signin(userName, password)
-                );
-            }
-        });
+    public String register(final String userName, final String password) {
+        return mUserRestDataStore.register(userName, password);
     }
 
     @Override
-    public Observable<String> register(final String userName,
-                                       final String password) {
-        return Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext(
-                        mUserRestDataStore.register(userName, password)
-                );
-            }
-        });
+    public String signin(final String userName, final String password) {
+        return mUserRestDataStore.signin(userName, password);
+    }
+
+    @Override
+    public void registerToken(final String token) {
+        mSpDataStore.registerToken(token);
     }
 }

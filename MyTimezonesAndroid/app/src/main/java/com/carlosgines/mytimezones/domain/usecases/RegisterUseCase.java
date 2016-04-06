@@ -48,6 +48,19 @@ public class RegisterUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return mUserRepository.register(mUserName, mPassword);
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                final String token = mUserRepository.register(mUserName, mPassword);
+                if (token.isEmpty()) {
+                    subscriber.onNext(false);
+                    subscriber.onCompleted();
+                } else {
+                    mUserRepository.registerToken(token);
+                    subscriber.onNext(true);
+                    subscriber.onCompleted();
+                }
+            }
+        });
     }
 }

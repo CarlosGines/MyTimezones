@@ -1,6 +1,7 @@
 package com.carlosgines.mytimezones.data.datastores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.carlosgines.mytimezones.data.datastores.requests.RegisterReq;
 import com.carlosgines.mytimezones.data.datastores.requests.SigninReq;
@@ -10,7 +11,22 @@ import javax.inject.Inject;
 /**
  * A repository to manage User related data.
  */
-public class UserRestDataStore {
+public class SharedPreferencesDataStore {
+
+    // ==========================================================================
+    // Constants
+    // ==========================================================================
+
+    /**
+     * Name for the default SharedPreferences file.
+     */
+    private static final String DEFAULT_PREFS = "default_prefs";
+
+    /**
+     * Auth token key
+     */
+    private static final String PREFS_TOKEN = "token";
+
     // ==========================================================================
     // Member variables
     // ==========================================================================
@@ -25,19 +41,18 @@ public class UserRestDataStore {
     // ==========================================================================
 
     @Inject
-    public UserRestDataStore(Context ctx) {
+    public SharedPreferencesDataStore(Context ctx) {
         mCtx = ctx;
     }
 
     // ==========================================================================
-    // UserRestDataStore public methods
+    // SharedPreferencesDataStore public methods
     // ==========================================================================
 
-    public String signin(final String userName, final String password) {
-        return new SigninReq(userName, password).signin(mCtx);
-    }
-
-    public String register(final String userName, final String password) {
-        return new RegisterReq(userName, password).register(mCtx);
+    public void registerToken(final String token) {
+        mCtx.getSharedPreferences(DEFAULT_PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putString(PREFS_TOKEN, token)
+                .apply();
     }
 }

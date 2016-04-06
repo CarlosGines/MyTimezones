@@ -153,6 +153,7 @@ public class SigninActivity extends BaseActivity implements SigninView {
     public void showNoConnection(final boolean show) {
         if (show) {
             super.showMessage(R.string.no_connection);
+            showProgress(false);
         }
     }
 

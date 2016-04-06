@@ -32,7 +32,7 @@ public class SigninPresenter {
     private final RegisterUseCase mRegisterUseCase;
 
     // View state:
-    private SigninView.ViewSwitch mViewSwitch = SigninView.ViewSwitch.SIGNIN;
+    private SigninView.ViewSwitch mViewSwitch = SigninView.ViewSwitch.REGISTER;
 
 
     // ========================================================================
@@ -161,19 +161,19 @@ public class SigninPresenter {
     /**
      * Use case subscriber to receive notifications from SigninUseCase
      */
-    private final class SigninSubscriber extends DefaultSubscriber<String> {
+    private final class SigninSubscriber extends DefaultSubscriber<Boolean> {
 
         public SigninSubscriber(final BaseView baseView) {
             super(baseView);
         }
 
         @Override
-        public void onNext(final String token) {
+        public void onNext(final Boolean success) {
             mView.showProgress(false);
-            if(TextUtils.isEmpty(token)) {
-                mView.setAuthFailedError();
-            } else {
+            if(success) {
                 mNavigator.navigateToTzListActivity();
+            } else {
+                mView.setAuthFailedError();
             }
         }
 
@@ -186,19 +186,19 @@ public class SigninPresenter {
     /**
      * Use case subscriber to receive notifications from SigninUseCase
      */
-    private final class RegisterSubscriber extends DefaultSubscriber<String> {
+    private final class RegisterSubscriber extends DefaultSubscriber<Boolean> {
 
         public RegisterSubscriber(final BaseView baseView) {
             super(baseView);
         }
 
         @Override
-        public void onNext(final String token) {
+        public void onNext(final Boolean success) {
             mView.showProgress(false);
-            if(TextUtils.isEmpty(token)) {
-                mView.setDuplicateUserNameError();
-            } else {
+            if(success) {
                 mNavigator.navigateToTzListActivity();
+            } else {
+                mView.setDuplicateUserNameError();
             }
         }
 
