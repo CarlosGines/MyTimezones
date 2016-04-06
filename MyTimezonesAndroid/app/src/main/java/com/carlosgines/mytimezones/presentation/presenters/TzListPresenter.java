@@ -1,8 +1,7 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
-import android.util.Log;
-
-import com.carlosgines.mytimezones.domain.usecases.CheckAuthUseCase;
+import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.usecases.CreateTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SignoutUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
 
@@ -29,6 +28,7 @@ public class TzListPresenter {
 
     // Use cases:
     private final SignoutUseCase mSignoutUseCase;
+    private final CreateTzUseCase mCreateTzUseCase;
 
     // ========================================================================
     // Constructor
@@ -37,10 +37,12 @@ public class TzListPresenter {
     @Inject
     public TzListPresenter(final TzListView view,
                            final Navigator navigator,
-                           final SignoutUseCase signoutUseCase) {
+                           final SignoutUseCase signoutUseCase,
+                           final CreateTzUseCase createTzUseCase) {
         mView = view;
         mNavigator= navigator;
         mSignoutUseCase = signoutUseCase;
+        mCreateTzUseCase = createTzUseCase;
     }
 
     // ========================================================================
@@ -53,6 +55,11 @@ public class TzListPresenter {
 
     public void onSignoutClick() {
         mSignoutUseCase.execute(new SignoutSubscriber(mView));
+    }
+
+    public void onCreateTzClick() {
+        Timezone tz = new Timezone("Test1", "Seville", 2);
+        mCreateTzUseCase.execute(tz, new DefaultSubscriber<>(mView));
     }
 
     // ========================================================================

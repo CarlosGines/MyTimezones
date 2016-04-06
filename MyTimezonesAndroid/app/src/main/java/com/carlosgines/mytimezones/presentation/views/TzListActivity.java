@@ -62,8 +62,9 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @OnClick(R.id.fab)
     public void onFabClick(View v) {
-        Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        mPresenter.onCreateTzClick();
+//        Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
     }
 
     // ========================================================================
@@ -78,7 +79,6 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         switch (item.getItemId()) {
             case R.id.action_signout:
                 mPresenter.onSignoutClick();

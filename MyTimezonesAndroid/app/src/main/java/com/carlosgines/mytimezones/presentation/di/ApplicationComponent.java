@@ -2,6 +2,7 @@ package com.carlosgines.mytimezones.presentation.di;
 
 import android.content.Context;
 
+import com.carlosgines.mytimezones.domain.repositories.TzRepository;
 import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
 import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
@@ -26,5 +27,6 @@ public interface ApplicationComponent {
 
     // Repositories
     UserRepository userRepository();
+    TzRepository tzRepository();
 }
 

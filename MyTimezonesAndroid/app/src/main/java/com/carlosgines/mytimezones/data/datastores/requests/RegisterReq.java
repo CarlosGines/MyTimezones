@@ -2,6 +2,7 @@ package com.carlosgines.mytimezones.data.datastores.requests;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.ServerError;
 
 import org.json.JSONException;
@@ -33,7 +34,7 @@ public class RegisterReq implements Req {
 
     public String register(final Context ctx) {
         try {
-            return ReqAdapter.sendFgReq(ctx, this)
+            return ReqAdapter.sendReq(ctx, this)
                     .getString(Contract.RES_TOKEN);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
@@ -56,6 +57,11 @@ public class RegisterReq implements Req {
     @Override
     public String getRoute() {
         return Contract.ROUTE;
+    }
+
+    @Override
+    public int getMethod() {
+        return Request.Method.POST;
     }
 
     @Override

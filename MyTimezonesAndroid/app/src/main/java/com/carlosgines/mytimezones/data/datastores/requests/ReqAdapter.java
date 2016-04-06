@@ -36,12 +36,12 @@ public class ReqAdapter {
     /**
      * Send a synchronous volley request.
      */
-    public static JSONObject sendFgReq(final Context ctx, final Req req)
+    public static JSONObject sendReq(final Context ctx, final Req req)
             throws ExecutionException {
         final String route = req.getRoute();
         try {
             final JSONObject response = prepareReq(
-                    ctx, req.getJsonRequest(), route
+                    ctx, req, route
             ).get(30, TimeUnit.SECONDS);
             Log.d(req.getRoute(), "Response:\n" + response.toString(4));
             return response;
@@ -62,7 +62,7 @@ public class ReqAdapter {
      * Actually perform volley request sending
      */
     private static RequestFuture<JSONObject> prepareReq(final Context ctx,
-            final JSONObject jsonRequest, final String route)
+            final Req req, final String route)
             throws JSONException {
         final Uri.Builder uriBuilder = new Uri.Builder()
                 .encodedPath(VolleyAdapter.getBaseUrl())
@@ -70,14 +70,14 @@ public class ReqAdapter {
         final RequestFuture<JSONObject> future = RequestFuture.newFuture();
         VolleyAdapter.getInstance(ctx).addToRequestQueue(
                 new JsonObjectRequest(
-                        Request.Method.POST,
+                        req.getMethod(),
                         uriBuilder.toString(),
-                        jsonRequest,
+                        req.getJsonRequest(),
                         future,
                         future
                 )
         );
-        Log.d(route, "Sending request to: " + uriBuilder + "\n" + jsonRequest);
+        Log.d(route, "Sending request to: " + uriBuilder + "\n" + req.getJsonRequest());
         return future;
     }
 

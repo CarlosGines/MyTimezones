@@ -2,8 +2,10 @@ package com.carlosgines.mytimezones.presentation.di;
 
 import android.content.Context;
 
+import com.carlosgines.mytimezones.data.repositories.TzDataRepository;
 import com.carlosgines.mytimezones.data.repositories.UserDataRepository;
 import com.carlosgines.mytimezones.data.JobExecutor;
+import com.carlosgines.mytimezones.domain.repositories.TzRepository;
 import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
 import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
@@ -46,7 +48,13 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    UserRepository provideConRepository(UserDataRepository userDataRepository) {
+    UserRepository provideUserRepository(UserDataRepository userDataRepository) {
         return userDataRepository;
+    }
+
+    @Provides
+    @Singleton
+    TzRepository provideTzRepository(TzDataRepository tzDataRepository) {
+        return tzDataRepository;
     }
 }

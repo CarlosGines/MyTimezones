@@ -3,6 +3,7 @@ package com.carlosgines.mytimezones.data.datastores.requests;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ public class SigninReq implements Req {
 
     public String signin(final Context ctx) {
         try {
-            return ReqAdapter.sendFgReq(ctx, this)
+            return ReqAdapter.sendReq(ctx, this)
                     .getString(Contract.RES_TOKEN);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
@@ -55,6 +56,11 @@ public class SigninReq implements Req {
     @Override
     public String getRoute() {
         return Contract.ROUTE;
+    }
+
+    @Override
+    public int getMethod() {
+        return Request.Method.POST;
     }
 
     @Override
