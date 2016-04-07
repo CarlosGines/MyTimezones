@@ -38,53 +38,38 @@ exports.getTzs = function(req, res, next) {
   });
 };
 
-
-exports.getTz = function(req, res, next) {
-  req.db.Timezone.findById(
-    req.params.id,
-    {__v:0},
-    function(err, tz) {
-      if (err) return next(err);
-      if (!tz) return res.sendStatus(404);
-      if (req.user.admin || req.user._id.equals(tz.author.id)) {
-        res.json(tz);
-      } else {
-        next('User is not authorized to get timezone.');
-      }
-    }
-  );
-};
-
-exports.updateTz = function(req, res, next) {
+exports.checkTz = function(req, res, next) {
   req.db.Timezone.findById(req.params.id, function(err, tz) {
     if (err) return next(err);
     if (!tz) return res.sendStatus(404);
-    if (req.user.admin || req.user._id.equals(tz.author.id)) {
-      tz.name = req.body.name;
-      tz.city = req.body.city;
-      tz.timeDiff = req.body.timeDiff;
-      tz.save(function(err, tz) {
-        if (err) {
-          console.log(err);
-          return next(err);
-        }
-        res.json(tz);
-      });
-    } else {
-      next('User is not authorized to delete timezone.');
+    if (!req.user.admin && !req.user._id.equals(tz.author.id)) {
+      return res.status(401)
+        .json('User not authorized to access/modify this timezone');
     }
-  })
+    req.tz = tz;
+    next();
+  });
+}
+
+exports.getTz = function(req, res, next) {
+  res.json(req.tz);
+};
+
+exports.updateTz = function(req, res, next) {
+  req.tz.name = req.body.name;
+  req.tz.city = req.body.city;
+  req.tz.timeDiff = req.body.timeDiff;
+  req.tz.updated = Date.now();
+  req.tz.save(function(err, tz) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    res.json(tz);
+  });
 };
 
 exports.del = function(req, res, next) {
-  req.db.Timezone.findById(req.params.id, function(err, tz) {
-    if (err) next(err);
-    if (!tz) return res.sendStatus(404);
-    if (req.user.admin || req.user._id.equals(tz.author.id)) {
-      tz.remove();
-      res.json(tz);
-    } else {
-      next('User is not authorized to delete timezone.');
-    }
-  })
+  req.tz.remove();
+  res.json(req.tz);
 };
