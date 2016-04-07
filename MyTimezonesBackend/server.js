@@ -9,7 +9,7 @@ var app = express();
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 var connection = mongoose.createConnection('mongodb://localhost:27017/test');
 connection.on('error', console.error.bind(console, 'connection error:'));
@@ -21,18 +21,29 @@ var User = connection.model('User', models.User, 'users');
 function db (req, res, next) {
   req.db = {
     User: User,
+    Timezone: connection.model('Timezone', models.Timezone, 'tzs')
   };
   return next();
 }
 
 routes.auth.init(app, User);
+var localAuth = routes.auth.localAuth;
+var tokenAuth = routes.auth.tokenAuth;
 
 app.get('/', function(req, res) {
   res.send('Hello Toptaler');
 });
 
+// AUTH
 app.post('/register', db, routes.auth.register);
-app.post('/signin', routes.auth.localAuth, db, routes.auth.signin);
+app.post('/signin', localAuth, db, routes.auth.signin);
+
+// TIMEZONES
+app.get('/timezones', tokenAuth, db, routes.tzs.getTzs);
+app.post('/timezones', tokenAuth, db, routes.tzs.add);
+app.get('/timezones/:id', tokenAuth, db, routes.tzs.getTz);
+app.put('/timezones/:id', tokenAuth, db, routes.tzs.updateTz);
+app.delete('/timezones/:id', tokenAuth, db, routes.tzs.del);
 
 app.use(function(req, res){
     res.sendStatus(404);
