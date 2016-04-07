@@ -4,6 +4,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * Default subscriber base class to be used whenever you want default error handling.
  */
@@ -43,8 +45,9 @@ public class DefaultSubscriber<T> extends rx.Subscriber<T> {
         Throwable cause = e.getCause();
         mBaseView.showProgress(false);
         if (cause != null) {
-            if (cause instanceof TimeoutError
-                    || cause instanceof NoConnectionError
+            if (cause instanceof  NoConnectionError
+                    || cause instanceof TimeoutError
+                    || cause instanceof TimeoutException
                     ) {
                 mBaseView.showNoConnection(true);
                 onError();

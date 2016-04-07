@@ -59,6 +59,7 @@ public class TzListPresenter {
     // ========================================================================
 
     public void onInit() {
+        mView.showProgress(true);
         mGetTzListUseCase.execute(new GetTzListSubscriber(mView));
     }
 
@@ -114,6 +115,7 @@ public class TzListPresenter {
         public void onNext(List<Timezone> tzs) {
             mTzs = tzs;
             mView.render(mTzs);
+            mView.showProgress(false);
         }
     }
 

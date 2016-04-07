@@ -172,10 +172,10 @@ public class SigninPresenter {
 
         @Override
         public void onNext(final Boolean success) {
-            mView.showProgress(false);
             if(success) {
                 mNavigator.navigateToTzListActivity();
             } else {
+                mView.showProgress(false);
                 mView.setAuthFailedError();
             }
         }
@@ -192,10 +192,10 @@ public class SigninPresenter {
 
         @Override
         public void onNext(final Boolean success) {
-            mView.showProgress(false);
             if(success) {
                 mNavigator.navigateToTzListActivity();
             } else {
+                mView.showProgress(false);
                 mView.setDuplicateUserNameError();
             }
         }

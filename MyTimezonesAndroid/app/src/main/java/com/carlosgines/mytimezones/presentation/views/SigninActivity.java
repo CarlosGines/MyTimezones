@@ -1,12 +1,9 @@
 package com.carlosgines.mytimezones.presentation.views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,7 +41,7 @@ public class SigninActivity extends BaseActivity implements SigninView {
     @Bind(R.id.signin_progress)
     View mProgressView;
     @Bind(R.id.signin_form)
-    View mLoginFormView;
+    View mContentView;
     @Bind(R.id.action_button)
     Button mActionButton;
     @Bind(R.id.switch_signin_register)
@@ -118,42 +115,25 @@ public class SigninActivity extends BaseActivity implements SigninView {
     // ========================================================================
 
     @Override
+    public void showProgress(final boolean show) {
+        super.closeKeyboard();
+        super.showProgress(show, mProgressView, mContentView);
+    }
+
+    @Override
     public void switchViews(final ViewSwitch viewSwitch) {
         mUserNameView.requestFocus();
         if (viewSwitch.equals(ViewSwitch.REGISTER)) {
+            setTitle(R.string.title_register);
             mPassword2View.setVisibility(View.VISIBLE);
             mActionButton.setText(R.string.action_register);
             mSwitchButton.setText(R.string.action_switch_to_signin);
         } else {
+            setTitle(R.string.title_signin);
             mPassword2View.setVisibility(View.GONE);
             mActionButton.setText(R.string.action_signin);
             mSwitchButton.setText(R.string.action_switch_to_register);
         }
-    }
-
-    @Override
-    public void showProgress(final boolean show) {
-        super.closeKeyboard();
-        final int shortAnimTime = getResources()
-                .getInteger(android.R.integer.config_shortAnimTime);
-
-        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
     }
 
     @Override

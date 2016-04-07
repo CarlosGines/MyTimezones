@@ -1,5 +1,7 @@
 package com.carlosgines.mytimezones.presentation.views;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,8 +14,6 @@ import com.carlosgines.mytimezones.presentation.di.ActivityModule;
 import com.carlosgines.mytimezones.presentation.di.ApplicationComponent;
 import com.carlosgines.mytimezones.presentation.di.MyTimezonesApplication;
 import com.carlosgines.mytimezones.presentation.presenters.BaseView;
-
-import org.json.JSONException;
 
 /**
  * Base Activity class for every Activity in this application.
@@ -73,6 +73,29 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     // Helper methods
     // ==========================================================================
 
+    public void showProgress(final boolean show, final View progressView,
+                             final View contentView) {
+        final int shortAnimTime = getResources()
+                .getInteger(android.R.integer.config_shortAnimTime);
+        contentView.setVisibility(show ? View.GONE : View.VISIBLE);
+        contentView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                contentView.setVisibility(
+                        show ? View.GONE : View.VISIBLE
+                );
+            }
+        });
+        progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        progressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
+    }
     protected void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {

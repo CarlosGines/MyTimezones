@@ -40,6 +40,10 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Bind(android.R.id.list)
     ListView mTzListView;
+    @Bind(R.id.progress)
+    View mProgressView;
+    @Bind(R.id.main_content)
+    View mContentView;
 
     /**
      * Adapter of the timezones list view.
@@ -78,9 +82,6 @@ public class TzListActivity extends BaseActivity implements TzListView {
     }
 
     protected void initViews() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         mTzListView.setEmptyView(findViewById(android.R.id.empty));
         super.registerForContextMenu(mTzListView);
     }
@@ -180,6 +181,12 @@ public class TzListActivity extends BaseActivity implements TzListView {
     // ========================================================================
     // TzListView implementation
     // ========================================================================
+
+    @Override
+    public void showProgress(final boolean show) {
+        super.closeKeyboard();
+        super.showProgress(show, mProgressView, mContentView);
+    }
 
     @Override
     public void render(List<Timezone> timezones) {

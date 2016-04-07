@@ -39,7 +39,7 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     @Bind(R.id.progress)
     View mProgressView;
     @Bind(R.id.main_content)
-    View mMainContentView;
+    View mContentView;
     @Bind(R.id.name)
     EditText mNameView;
     @Bind(R.id.city)
@@ -117,26 +117,7 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     @Override
     public void showProgress(final boolean show) {
         super.closeKeyboard();
-        final int shortAnimTime = getResources()
-                .getInteger(android.R.integer.config_shortAnimTime);
-        mMainContentView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mMainContentView.animate().setDuration(shortAnimTime).alpha(
-                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mMainContentView.setVisibility(
-                        show ? View.GONE : View.VISIBLE
-                );
-            }
-        });
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
+        super.showProgress(show, mProgressView, mContentView);
     }
 
     @Override

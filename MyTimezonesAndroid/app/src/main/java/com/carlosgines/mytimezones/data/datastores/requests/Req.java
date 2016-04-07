@@ -9,6 +9,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.RequestFuture;
 
 import org.json.JSONException;
@@ -153,6 +154,8 @@ public abstract class Req {
         final Throwable cause = e.getCause();
         if (cause instanceof NoConnectionError) {
             throw new RuntimeException("NoConnectionError at " + route, cause);
+        } else if (cause instanceof TimeoutError) {
+            throw new RuntimeException("TimeoutError at " + route, cause);
         } else if (cause instanceof ServerError) {
             throw new RuntimeException("ServerError at " + route, cause);
         } else if (cause instanceof AuthFailureError) {

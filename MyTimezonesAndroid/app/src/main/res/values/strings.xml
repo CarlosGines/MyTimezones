@@ -14,6 +14,10 @@
     <!-- Signin Activity -->
     <!-- *************** -->
 
+    <!-- Titles -->
+    <string name="title_register">Register</string>
+    <string name="title_signin">Sign in</string>
+
     <!-- Labels -->
     <string name="prompt_username">User name</string>
     <string name="prompt_password">Password</string>
