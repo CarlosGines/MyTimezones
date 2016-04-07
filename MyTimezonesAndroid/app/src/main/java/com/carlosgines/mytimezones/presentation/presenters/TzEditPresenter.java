@@ -25,13 +25,14 @@ public class TzEditPresenter {
     /**
      * Navigator
      */
-//    private final Navigator mNavigator;
+    private final Navigator mNavigator;
 
     // Use cases:
     private final CreateTzUseCase mCreateTzUseCase;
 
     // View state:
     private TzEditView.ViewMode mMode;
+    private Timezone mTz;
 
     // ========================================================================
     // Constructor
@@ -39,10 +40,10 @@ public class TzEditPresenter {
 
     @Inject
     public TzEditPresenter(final TzEditView view,
-//                           final Navigator navigator,
+                           final Navigator navigator,
                            final CreateTzUseCase createTzUseCase) {
         mView = view;
-//        mNavigator = navigator;
+        mNavigator = navigator;
         mCreateTzUseCase = createTzUseCase;
     }
 
@@ -52,7 +53,7 @@ public class TzEditPresenter {
 
     public void onInit() {
         mMode = TzEditView.ViewMode.CREATE;
-        mView.setViewMode(mMode);
+        mView.setViewMode(mMode, null);
     }
 
     public void onActionClick(final String name, final String city,
@@ -60,6 +61,10 @@ public class TzEditPresenter {
         if (mMode.equals(TzEditView.ViewMode.CREATE)) {
             this.attemptCreate(name, city, timeDiff);
         }
+    }
+
+    public void onBackPressed() {
+        mNavigator.navigateBackFromTzEditActivity(mTz);
     }
 
     // ========================================================================
@@ -118,7 +123,10 @@ public class TzEditPresenter {
 
         @Override
         public void onNext(final Timezone tz) {
+            mTz = tz;
             mView.showProgress(false);
+            mView.showCreationSuccess();
+            mView.setViewMode(TzEditView.ViewMode.EDIT, mTz);
         }
 
         @Override

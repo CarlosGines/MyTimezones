@@ -2,6 +2,8 @@ package com.carlosgines.mytimezones.presentation.views;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.carlosgines.mytimezones.BuildConfig;
@@ -68,8 +70,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     // ==========================================================================
-    // Injection helper methods
+    // Helper methods
     // ==========================================================================
+
+    protected void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     /**
      * Get the Main Application component for dependency injection.

@@ -1,5 +1,6 @@
 package com.carlosgines.mytimezones.presentation.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 
 import com.carlosgines.mytimezones.R;
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.presentation.Navigator;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListPresenter;
@@ -100,6 +102,16 @@ public class TzListActivity extends BaseActivity implements TzListView {
     protected void onStop() {
         super.onStop();
         mTimer.cancel();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if(resultCode == RESULT_OK && requestCode == Navigator.DEFAULT_RC) {
+            mPresenter.onBackFromTzEdit(
+                    (Timezone)data.getSerializableExtra(Navigator.TZ_KEY)
+            );
+        }
     }
 
     // ========================================================================

@@ -1,5 +1,6 @@
 package com.carlosgines.mytimezones.domain.models;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.SimpleTimeZone;
@@ -7,7 +8,7 @@ import java.util.SimpleTimeZone;
 /**
  * A time zone.
  */
-public class Timezone {
+public class Timezone implements Serializable {
 
     // ========================================================================
     // Member variables

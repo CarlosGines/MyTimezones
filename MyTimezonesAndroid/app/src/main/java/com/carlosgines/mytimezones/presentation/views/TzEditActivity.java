@@ -3,11 +3,17 @@ package com.carlosgines.mytimezones.presentation.views;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.carlosgines.mytimezones.R;
+import com.carlosgines.mytimezones.domain.models.Timezone;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.TzEditPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzEditView;
@@ -60,6 +66,18 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     }
 
     public void initViews() {
+        mTimeDiffView.setOnEditorActionListener(
+                new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id,
+                                          KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_DONE) {
+                    TzEditActivity.this.onActionClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initInjector() {
@@ -82,12 +100,18 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
         );
     }
 
+    @Override
+    public void onBackPressed() {
+        mPresenter.onBackPressed();
+    }
+
     // ========================================================================
     // TzEditView implementation
     // ========================================================================
 
     @Override
     public void showProgress(final boolean show) {
+        super.closeKeyboard();
         final int shortAnimTime = getResources()
                 .getInteger(android.R.integer.config_shortAnimTime);
         mMainContentView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -111,10 +135,12 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     }
 
     @Override
-    public void setViewMode(ViewMode mode) {
+    public void setViewMode(ViewMode mode, Timezone tz) {
         if (mode.equals(ViewMode.CREATE)) {
+            setTitle(R.string.title_create_tz);
             mActionButton.setText(R.string.action_create_tz);
         } else {
+            setTitle(tz.getName());
             mActionButton.setText(R.string.action_edit_tz);
         }
     }
@@ -148,5 +174,14 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     public void setInvalidTimeDiffError() {
         mTimeDiffView.setError(getString(R.string.error_invalid_time_diff));
         mTimeDiffView.requestFocus();
+    }
+
+    @Override
+    public void showCreationSuccess() {
+        Snackbar.make(
+                mActionButton,
+                R.string.log_tz_creation_success,
+                Snackbar.LENGTH_LONG
+        ).show();
     }
 }

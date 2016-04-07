@@ -1,7 +1,6 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
 import com.carlosgines.mytimezones.domain.models.Timezone;
-import com.carlosgines.mytimezones.domain.usecases.CreateTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.GetTzListUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SignoutUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
@@ -32,7 +31,9 @@ public class TzListPresenter {
     // Use cases:
     private final SignoutUseCase mSignoutUseCase;
     private final GetTzListUseCase mGetTzListUseCase;
-    private final CreateTzUseCase mCreateTzUseCase;
+
+    // View state:
+    private List<Timezone> mTzs;
 
     // ========================================================================
     // Constructor
@@ -42,13 +43,11 @@ public class TzListPresenter {
     public TzListPresenter(final TzListView view,
                            final Navigator navigator,
                            final SignoutUseCase signoutUseCase,
-                           final GetTzListUseCase tzListUseCase,
-                           final CreateTzUseCase createTzUseCase) {
+                           final GetTzListUseCase tzListUseCase) {
         mView = view;
         mNavigator= navigator;
         mSignoutUseCase = signoutUseCase;
         mGetTzListUseCase = tzListUseCase;
-        mCreateTzUseCase = createTzUseCase;
     }
 
     // ========================================================================
@@ -64,7 +63,17 @@ public class TzListPresenter {
     }
 
     public void onCreateTzClick() {
-        mNavigator.navigateToTzEditActivity();
+        mNavigator.navigateToTzEditActivity(null);
+    }
+
+    public void onBackFromTzEdit(final Timezone tz) {
+        final int index = mTzs.indexOf(tz);
+        if(index == -1) {
+            mTzs.add(tz);
+        } else {
+            mTzs.set(index, tz);
+        }
+        mView.render(mTzs);
     }
 
     // ========================================================================
@@ -82,8 +91,9 @@ public class TzListPresenter {
         }
 
         @Override
-        public void onNext(List<Timezone> timezones) {
-            mView.render(timezones);
+        public void onNext(List<Timezone> tzs) {
+            mTzs = tzs;
+            mView.render(mTzs);
         }
     }
 

@@ -49,5 +49,7 @@
 
     <!-- Errors -->
     <string name="error_invalid_time_diff">Time difference must be less than 12 and greater than -12.</string>
+    <string name="log_tz_creation_success">Time zone record created!</string>
+    <string name="title_create_tz">New time zone record</string>
 
 </resources>

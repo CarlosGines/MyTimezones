@@ -1,9 +1,11 @@
 package com.carlosgines.mytimezones.domain.models;
 
+import java.io.Serializable;
+
 /**
  * An user.
  */
-public class User {
+public class User implements Serializable {
 
     private String _id;
     private String username;

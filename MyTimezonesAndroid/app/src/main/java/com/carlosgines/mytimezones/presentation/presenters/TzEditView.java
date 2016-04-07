@@ -1,5 +1,7 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
+import com.carlosgines.mytimezones.domain.models.Timezone;
+
 /**
  * View for Time zone create and edit screen.
  */
@@ -12,10 +14,11 @@ public interface TzEditView extends BaseView{
     enum ViewMode {CREATE, EDIT};
 
     /**
-     * Set view modes.
+     * Set view mode.
      * @param mode view mode.
+     * @param tz The time zone record being edited if any.
      */
-    void setViewMode(ViewMode mode);
+    void setViewMode(ViewMode mode, Timezone tz);
 
     /**
      * Delete all error messages on fields.
@@ -42,4 +45,8 @@ public interface TzEditView extends BaseView{
      */
     void setInvalidTimeDiffError();
 
+    /**
+     * Show feedback about a time zone record successfully created.
+     */
+    void showCreationSuccess();
 }
