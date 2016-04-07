@@ -70,6 +70,14 @@ public class TzListPresenter {
         mNavigator.navigateToTzEditActivity(null);
     }
 
+    public void onItemClick(int pos) {
+        mNavigator.navigateToTzEditActivity(mTzs.get(pos));
+    }
+
+    public void onDeleteClick(int pos) {
+        mDeleteTzUseCase.execute(mTzs.get(pos), new DeleteTzSubscriber(mView));
+    }
+
     public void onBackFromTzEdit(final Timezone tz) {
         if (tz != null) {
             final int index = mTzs.indexOf(tz);
@@ -86,10 +94,6 @@ public class TzListPresenter {
         mSignoutUseCase.unsubscribe();
         mGetTzListUseCase.unsubscribe();
         mDeleteTzUseCase.unsubscribe();
-    }
-
-    public void onDeleteClick(int pos) {
-        mDeleteTzUseCase.execute(mTzs.get(pos), new DeleteTzSubscriber(mView));
     }
 
     // ========================================================================

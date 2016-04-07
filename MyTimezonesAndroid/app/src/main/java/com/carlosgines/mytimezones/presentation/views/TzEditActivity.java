@@ -61,7 +61,7 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
 
         this.initViews();
         this.initInjector();
-        mPresenter.onInit();
+        mPresenter.onInit(getIntent().getExtras());
     }
 
     public void initViews() {
@@ -147,6 +147,9 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
         } else {
             setTitle(tz.getName());
             mActionButton.setText(R.string.action_edit_tz);
+            mNameView.setText(tz.getName());
+            mCityView.setText(tz.getCity());
+            mTimeDiffView.setText(String.valueOf(tz.getTimeDiff()));
         }
     }
 
@@ -182,10 +185,12 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     }
 
     @Override
-    public void showCreationSuccess() {
+    public void showEditSuccess(ViewMode mode) {
         Snackbar.make(
                 mActionButton,
-                R.string.log_tz_creation_success,
+                mode.equals(ViewMode.CREATE) ?
+                        R.string.log_tz_creation_success :
+                        R.string.log_tz_edit_success,
                 Snackbar.LENGTH_LONG
         ).show();
     }

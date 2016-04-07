@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 public class TzListActivity extends BaseActivity implements TzListView {
 
@@ -126,6 +127,11 @@ public class TzListActivity extends BaseActivity implements TzListView {
     @OnClick(R.id.fab)
     public void onFabClick(View v) {
         mPresenter.onCreateTzClick();
+    }
+
+    @OnItemClick(android.R.id.list)
+    public void onItemClick(int pos) {
+        mPresenter.onItemClick(pos);
     }
 
     // ========================================================================

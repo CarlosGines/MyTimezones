@@ -46,7 +46,8 @@ public interface TzEditView extends BaseView{
     void setInvalidTimeDiffError();
 
     /**
-     * Show feedback about a time zone record successfully created.
+     * Show feedback about a time zone record successfully created or edited.
      */
-    void showCreationSuccess();
+    void showEditSuccess(ViewMode mode);
+
 }

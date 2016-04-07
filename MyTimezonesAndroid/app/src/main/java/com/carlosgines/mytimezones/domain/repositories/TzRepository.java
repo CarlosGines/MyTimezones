@@ -23,7 +23,13 @@ public interface TzRepository {
     List<Timezone> get();
 
     /**
-     * Delete a timezone records.
+     * Edit a timezone record.
+     * @return the edited record.
+     */
+    Timezone edit(Timezone tz);
+
+    /**
+     * Delete a timezone record.
      * @return the deleted record.
      */
     Timezone delete(Timezone tz);
