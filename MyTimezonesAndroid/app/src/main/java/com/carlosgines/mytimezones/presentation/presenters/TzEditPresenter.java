@@ -174,10 +174,5 @@ public class TzEditPresenter {
                 mView.setViewMode(TzEditView.ViewMode.EDIT, mTz);
             }
         }
-
-        @Override
-        public void onError() {
-            mView.showProgress(false);
-        }
     }
 }

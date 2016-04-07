@@ -41,6 +41,7 @@ public class DefaultSubscriber<T> extends rx.Subscriber<T> {
     public final void onError(Throwable e) {
         e.printStackTrace();
         Throwable cause = e.getCause();
+        mBaseView.showProgress(false);
         if (cause != null) {
             if (cause instanceof TimeoutError
                     || cause instanceof NoConnectionError

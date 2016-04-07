@@ -182,14 +182,6 @@ public class TzListActivity extends BaseActivity implements TzListView {
     // ========================================================================
 
     @Override
-    public void showProgress(boolean show) {
-    }
-
-    @Override
-    public void showNoConnection(boolean show) {
-    }
-
-    @Override
     public void render(List<Timezone> timezones) {
         if(mAdapter == null) {
             mAdapter = new TzListViewAdapter(this, timezones);

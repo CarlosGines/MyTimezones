@@ -179,11 +179,6 @@ public class SigninPresenter {
                 mView.setAuthFailedError();
             }
         }
-
-        @Override
-        public void onError() {
-            mView.showProgress(false);
-        }
     }
 
     /**
@@ -203,11 +198,6 @@ public class SigninPresenter {
             } else {
                 mView.setDuplicateUserNameError();
             }
-        }
-
-        @Override
-        public void onError() {
-            mView.showProgress(false);
         }
     }
 }
