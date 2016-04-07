@@ -3,25 +3,23 @@ package com.carlosgines.mytimezones.presentation.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.carlosgines.mytimezones.R;
 import com.carlosgines.mytimezones.domain.models.Timezone;
 import com.carlosgines.mytimezones.presentation.Navigator;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
-import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListView;
 import com.carlosgines.mytimezones.presentation.views.adapters.TzListViewAdapter;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -83,6 +81,7 @@ public class TzListActivity extends BaseActivity implements TzListView {
         setSupportActionBar(toolbar);
 
         mTzListView.setEmptyView(findViewById(android.R.id.empty));
+        super.registerForContextMenu(mTzListView);
     }
 
     private void initInjector() {
@@ -127,8 +126,6 @@ public class TzListActivity extends BaseActivity implements TzListView {
     @OnClick(R.id.fab)
     public void onFabClick(View v) {
         mPresenter.onCreateTzClick();
-//        Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
     }
 
     // ========================================================================
@@ -137,7 +134,7 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_tz_list, menu);
+        getMenuInflater().inflate(R.menu.tz_list_menu, menu);
         return true;
     }
 
@@ -149,6 +146,29 @@ public class TzListActivity extends BaseActivity implements TzListView {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // ==========================================================================
+    // Context menu
+    // ==========================================================================
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.tz_list_ctx_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.menu_delete:
+                mPresenter.onDeleteClick(info.position);
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     // ========================================================================
@@ -165,7 +185,20 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public void render(List<Timezone> timezones) {
-        mAdapter = new TzListViewAdapter(this, timezones);
-        mTzListView.setAdapter(mAdapter);
+        if(mAdapter == null) {
+            mAdapter = new TzListViewAdapter(this, timezones);
+            mTzListView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void showDeleteSuccess() {
+        Snackbar.make(
+                mTzListView,
+                R.string.log_tz_delete_success,
+                Snackbar.LENGTH_LONG
+        ).show();
     }
 }

@@ -13,4 +13,9 @@ public interface TzListView extends BaseView {
      * Render a list of timezones.
      */
     void render(List<Timezone> timezones);
+
+    /**
+     * Show feedback about a time zone record successfully deleted.
+     */
+    void showDeleteSuccess();
 }

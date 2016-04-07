@@ -5,9 +5,12 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.SimpleTimeZone;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * A time zone.
  */
+@EqualsAndHashCode(of={"_id"})
 public class Timezone implements Serializable {
 
     // ========================================================================

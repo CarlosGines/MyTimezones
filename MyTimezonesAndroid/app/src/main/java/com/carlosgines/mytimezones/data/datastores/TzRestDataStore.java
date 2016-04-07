@@ -3,6 +3,7 @@ package com.carlosgines.mytimezones.data.datastores;
 import android.content.Context;
 
 import com.carlosgines.mytimezones.data.datastores.requests.CreateTzReq;
+import com.carlosgines.mytimezones.data.datastores.requests.DeleteTzReq;
 import com.carlosgines.mytimezones.data.datastores.requests.GetTzListReq;
 import com.carlosgines.mytimezones.data.datastores.requests.RegisterReq;
 import com.carlosgines.mytimezones.data.datastores.requests.SigninReq;
@@ -47,5 +48,9 @@ public class TzRestDataStore {
 
     public List<Timezone> get() {
         return new GetTzListReq().getTzList(mCtx, mUserRepository.getToken());
+    }
+
+    public Timezone delete(final Timezone tz) {
+        return new DeleteTzReq(tz).deleteTz(mCtx, mUserRepository.getToken());
     }
 }

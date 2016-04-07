@@ -21,4 +21,10 @@ public interface TzRepository {
      * @return the list of timezone records of this user.
      */
     List<Timezone> get();
+
+    /**
+     * Delete a timezone records.
+     * @return the deleted record.
+     */
+    Timezone delete(Timezone tz);
 }

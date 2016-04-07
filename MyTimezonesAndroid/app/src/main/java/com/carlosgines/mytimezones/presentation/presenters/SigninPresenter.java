@@ -187,7 +187,7 @@ public class SigninPresenter {
     }
 
     /**
-     * Use case subscriber to receive notifications from SigninUseCase
+     * Use case subscriber to receive notifications from RegisterSubscriber
      */
     private final class RegisterSubscriber extends DefaultSubscriber<Boolean> {
 

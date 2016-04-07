@@ -8,12 +8,13 @@
     <string name="unexpected_error">Oops! Something went wrong!</string>
     <string name="no_connection">No connection</string>
     <string name="error_field_required">This field is required</string>
+    <string name="action_delete">Delete</string>
 
     <!-- *************** -->
     <!-- Signin Activity -->
     <!-- *************** -->
 
-    <!-- Labels & hints -->
+    <!-- Labels -->
     <string name="prompt_username">User name</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_password2">Repeat password</string>
@@ -33,23 +34,31 @@
     <!-- TzListActivity -->
     <!-- ************** -->
 
+    <!-- Title -->
     <string name="title_activity_tz_list">My timezones</string>
+
+    <!-- Labels -->
     <string name="tz_list_empty">No time zone records yet.</string>
     <string name="action_signout">Sign out</string>
+    <string name="log_tz_delete_success">Time zone record deleted</string>
+
 
     <!-- ************** -->
     <!-- TzEditActivity -->
     <!-- ************** -->
 
+    <!-- Title -->
+    <string name="title_create_tz">New time zone record</string>
+
+    <!-- Labels -->
     <string name="prompt_name">Time zone name</string>
     <string name="prompt_city">City name</string>
     <string name="prompt_time_diff">Difference to GMT time</string>
     <string name="action_create_tz">Add record</string>
     <string name="action_edit_tz">Edit record</string>
+    <string name="log_tz_creation_success">Time zone record created!</string>
 
     <!-- Errors -->
-    <string name="error_invalid_time_diff">Time difference must be less than 12 and greater than -12.</string>
-    <string name="log_tz_creation_success">Time zone record created!</string>
-    <string name="title_create_tz">New time zone record</string>
+    <string name="error_invalid_time_diff">Time difference must be less than 12 and greater than -12</string>
 
 </resources>

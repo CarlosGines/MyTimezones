@@ -1,6 +1,7 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.usecases.DeleteTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.GetTzListUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SignoutUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
@@ -31,6 +32,7 @@ public class TzListPresenter {
     // Use cases:
     private final SignoutUseCase mSignoutUseCase;
     private final GetTzListUseCase mGetTzListUseCase;
+    private final DeleteTzUseCase mDeleteTzUseCase;
 
     // View state:
     private List<Timezone> mTzs;
@@ -43,11 +45,13 @@ public class TzListPresenter {
     public TzListPresenter(final TzListView view,
                            final Navigator navigator,
                            final SignoutUseCase signoutUseCase,
-                           final GetTzListUseCase tzListUseCase) {
+                           final GetTzListUseCase tzListUseCase,
+                           final DeleteTzUseCase deleteTztUseCase) {
         mView = view;
         mNavigator= navigator;
         mSignoutUseCase = signoutUseCase;
         mGetTzListUseCase = tzListUseCase;
+        mDeleteTzUseCase = deleteTztUseCase;
     }
 
     // ========================================================================
@@ -81,6 +85,11 @@ public class TzListPresenter {
     public void onDestroy() {
         mSignoutUseCase.unsubscribe();
         mGetTzListUseCase.unsubscribe();
+        mDeleteTzUseCase.unsubscribe();
+    }
+
+    public void onDeleteClick(int pos) {
+        mDeleteTzUseCase.execute(mTzs.get(pos), new DeleteTzSubscriber(mView));
     }
 
     // ========================================================================
@@ -88,7 +97,7 @@ public class TzListPresenter {
     // ========================================================================
 
     /**
-     * Use case subscriber to receive notifications from CheckAuthSubscriber
+     * Use case subscriber to receive notifications from GetTzListSubscriber
      */
     private final class GetTzListSubscriber
             extends DefaultSubscriber<List<Timezone>> {
@@ -105,7 +114,25 @@ public class TzListPresenter {
     }
 
     /**
-     * Use case subscriber to receive notifications from CheckAuthSubscriber
+     * Use case subscriber to receive notifications from DeleteTzSubscriber
+     */
+    private final class DeleteTzSubscriber
+            extends DefaultSubscriber<Timezone> {
+
+        public DeleteTzSubscriber(final BaseView baseView) {
+            super(baseView);
+        }
+
+        @Override
+        public void onNext(Timezone tz) {
+            mTzs.remove(tz);
+            mView.showDeleteSuccess();
+            mView.render(mTzs);
+        }
+    }
+
+    /**
+     * Use case subscriber to receive notifications from SignoutSubscriber
      */
     private final class SignoutSubscriber
             extends DefaultSubscriber<Boolean> {

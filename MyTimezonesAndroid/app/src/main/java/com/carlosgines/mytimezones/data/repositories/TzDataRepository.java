@@ -32,4 +32,9 @@ public class TzDataRepository implements TzRepository {
     public List<Timezone> get() {
         return mTzRestDataStore.get();
     }
+
+    @Override
+    public Timezone delete(Timezone tz) {
+        return mTzRestDataStore.delete(tz);
+    }
 }
