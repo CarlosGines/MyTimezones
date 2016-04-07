@@ -1,6 +1,7 @@
 package com.carlosgines.mytimezones.presentation.views;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.carlosgines.mytimezones.presentation.presenters.TzListPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListView;
 import com.carlosgines.mytimezones.presentation.views.adapters.TzListViewAdapter;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,6 +45,21 @@ public class TzListActivity extends BaseActivity implements TzListView {
      */
     private TzListViewAdapter mAdapter;
 
+    /**
+     * Timer to update timezones current time.
+     */
+    private final CountDownTimer mTimer = new CountDownTimer(100000000, 1000) {
+
+        public void onTick(long millisUntilFinished) {
+            if(mAdapter != null && mAdapter.getCount() > 0) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onFinish() {
+        }
+    };
 
     // ========================================================================
     // Activity lifecycle methods
@@ -71,6 +88,18 @@ public class TzListActivity extends BaseActivity implements TzListView {
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build().inject(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mTimer.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mTimer.cancel();
     }
 
     // ========================================================================

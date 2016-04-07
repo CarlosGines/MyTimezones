@@ -1,6 +1,8 @@
 package com.carlosgines.mytimezones.domain.models;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.SimpleTimeZone;
 
 /**
  * A time zone.
@@ -90,5 +92,19 @@ public class Timezone {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+// ========================================================================
+// Public methods
+// ========================================================================
+
+    /**
+     * @return A properly formatted version of the current time and date
+     * according to this time zone.
+     */
+    public String getFormattedCurrentDateTime() {
+        final DateFormat df = DateFormat.getDateTimeInstance();
+        df.setTimeZone(new SimpleTimeZone(getTimeDiff() * 3600 * 1000, getName()));
+        return df.format(new Date());
     }
 }

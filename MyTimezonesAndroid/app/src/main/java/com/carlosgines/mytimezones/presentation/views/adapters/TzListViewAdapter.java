@@ -52,13 +52,15 @@ public class TzListViewAdapter extends ArrayAdapter<Timezone> {
 		final TextView nameTv = (TextView) resultView.findViewById(R.id.name);
         final TextView cityTv = (TextView) resultView.findViewById(R.id.city);
         final TextView timeDiffTv = (TextView) resultView.findViewById(R.id.timeDiff);
+        final TextView currentTimeTv = (TextView) resultView.findViewById(R.id.currentTime);
         nameTv.setText(tz.getName());
         cityTv.setText(tz.getCity());
-        if(tz.getTimeDiff() >= 0) {
-            timeDiffTv.setText(String.format("GMT+%d", tz.getTimeDiff()));
+        if (tz.getTimeDiff() > 0) {
+            timeDiffTv.setText(String.format("+%d", tz.getTimeDiff()));
         } else {
-            timeDiffTv.setText(String.format("GMT%d", tz.getTimeDiff()));
+            timeDiffTv.setText(String.format("%d", tz.getTimeDiff()));
         }
+        currentTimeTv.setText(tz.getFormattedCurrentDateTime());
         return resultView;
 	}
 }
