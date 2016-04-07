@@ -12,8 +12,9 @@ public interface TzRepository {
     /**
      * Create a new timezone record for the current user.
      * @param tz the timezone to create.
+     * @return The created time zone.
      */
-    void create(Timezone tz);
+    Timezone create(Timezone tz);
 
     /**
      * Get the list of timezone records of this user.

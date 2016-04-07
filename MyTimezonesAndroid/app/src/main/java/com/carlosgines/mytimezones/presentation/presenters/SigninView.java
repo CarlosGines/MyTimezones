@@ -18,22 +18,22 @@ public interface SigninView extends BaseView{
     void switchViews(ViewSwitch viewSwitch);
 
     /**
-     * Delete all message errors on fields.
+     * Delete all error messages on fields.
      */
     void resetErrors();
 
     /**
-     * Set empty email error message on email field.
+     * Set empty error message on user name field.
      */
     void setEmptyUserNameError();
 
     /**
-     * Set invalid email error message on email field.
+     * Set invalid error message on user name field.
      */
     void setInvalidUserNameError();
 
     /**
-     * Set empty password error message on password field.
+     * Set empty error message on password field.
      */
     void setEmptyPasswordError();
 
@@ -43,7 +43,7 @@ public interface SigninView extends BaseView{
     void setDifferentPasswordsError();
 
     /**
-     * Set invalid password error message on password field.
+     * Set invalid error message on password field.
      */
     void setInvalidPasswordError();
 

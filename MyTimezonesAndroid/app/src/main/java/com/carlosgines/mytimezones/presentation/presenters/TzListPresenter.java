@@ -64,8 +64,7 @@ public class TzListPresenter {
     }
 
     public void onCreateTzClick() {
-        Timezone tz = new Timezone("Test1", "Seville", 2);
-        mCreateTzUseCase.execute(tz, new DefaultSubscriber<>(mView));
+        mNavigator.navigateToTzEditActivity();
     }
 
     // ========================================================================

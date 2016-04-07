@@ -49,10 +49,10 @@ public class CreateTzUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+        return Observable.create(new Observable.OnSubscribe<Timezone>() {
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                mTzRepository.create(mTz);
+            public void call(Subscriber<? super Timezone> subscriber) {
+                subscriber.onNext(mTzRepository.create(mTz));
                 subscriber.onCompleted();
             }
         });

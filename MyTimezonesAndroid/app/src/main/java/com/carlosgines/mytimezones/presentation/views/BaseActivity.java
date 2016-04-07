@@ -33,6 +33,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     // ==========================================================================
 
     @Override
+    public void showProgress(boolean show) {
+    }
+
+    @Override
+    public void showNoConnection(final boolean show) {
+        if (show) {
+            showMessage(R.string.no_connection);
+        }
+    }
+
+    @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

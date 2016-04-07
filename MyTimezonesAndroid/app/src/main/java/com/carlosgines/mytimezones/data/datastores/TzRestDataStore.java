@@ -41,8 +41,8 @@ public class TzRestDataStore {
     // UserRestDataStore public methods
     // ==========================================================================
 
-    public void create(final Timezone tz) {
-        new CreateTzReq(tz).createTz(mCtx);
+    public Timezone create(final Timezone tz) {
+        return new CreateTzReq(tz).createTz(mCtx, mUserRepository.getToken());
     }
 
     public List<Timezone> get() {

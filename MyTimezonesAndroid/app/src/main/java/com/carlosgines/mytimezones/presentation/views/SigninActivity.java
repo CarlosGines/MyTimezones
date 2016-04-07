@@ -95,7 +95,7 @@ public class SigninActivity extends BaseActivity implements SigninView {
     @OnClick(R.id.action_button)
     public void onActionClick() {
         mPresenter.onActionClick(
-                mUserNameView.getText().toString(),
+                mUserNameView.getText().toString().trim(),
                 mPasswordView.getText().toString(),
                 mPassword2View.getText().toString()
         );
@@ -146,14 +146,6 @@ public class SigninActivity extends BaseActivity implements SigninView {
                 mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             }
         });
-    }
-
-    @Override
-    public void showNoConnection(final boolean show) {
-        if (show) {
-            super.showMessage(R.string.no_connection);
-            showProgress(false);
-        }
     }
 
     @Override

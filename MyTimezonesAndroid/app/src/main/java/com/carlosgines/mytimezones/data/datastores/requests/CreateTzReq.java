@@ -4,12 +4,14 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsonorg.JsonOrgModule;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class CreateTzReq extends Req {
@@ -38,11 +40,14 @@ public class CreateTzReq extends Req {
     // Public methods
     // ========================================================================
 
-    public void createTz(final Context ctx) {
+    public Timezone createTz(final Context ctx, final String token) {
         try {
-            super.send(ctx);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JsonOrgModule());
+            return mapper.convertValue(super.send(ctx, token), Timezone.class);
         } catch (ExecutionException e) {
             handleExecutionException(e);
+            throw null;
         }
     }
 

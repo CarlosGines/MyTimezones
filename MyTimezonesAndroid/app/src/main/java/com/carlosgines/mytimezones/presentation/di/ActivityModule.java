@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.carlosgines.mytimezones.presentation.presenters.LauncherView;
 import com.carlosgines.mytimezones.presentation.presenters.SigninView;
+import com.carlosgines.mytimezones.presentation.presenters.TzEditView;
 import com.carlosgines.mytimezones.presentation.presenters.TzListView;
 
 import dagger.Module;
@@ -46,5 +47,11 @@ public class ActivityModule {
     @PerActivity
     TzListView provideTzListView() {
         return (TzListView)this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    TzEditView provideTzEditView() {
+        return (TzEditView)this.activity;
     }
 }

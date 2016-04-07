@@ -7,6 +7,7 @@
 
     <string name="unexpected_error">Oops! Something went wrong!</string>
     <string name="no_connection">No connection</string>
+    <string name="error_field_required">This field is required</string>
 
     <!-- *************** -->
     <!-- Signin Activity -->
@@ -24,7 +25,6 @@
     <!-- Errors -->
     <string name="error_invalid_username">User name is too short. Use at least 4 characters</string>
     <string name="error_invalid_password">Password is too short. Use at least 4 characters</string>
-    <string name="error_field_required">This field is required</string>
     <string name="error_different_passwords">Passwords do not match</string>
     <string name="error_duplicate_username">User name already registered</string>
     <string name="error_auth_failed">User name and password do not match</string>
@@ -36,5 +36,18 @@
     <string name="title_activity_tz_list">My timezones</string>
     <string name="tz_list_empty">No time zone records yet.</string>
     <string name="action_signout">Sign out</string>
+
+    <!-- ************** -->
+    <!-- TzEditActivity -->
+    <!-- ************** -->
+
+    <string name="prompt_name">Time zone name</string>
+    <string name="prompt_city">City name</string>
+    <string name="prompt_time_diff">Difference to GMT time</string>
+    <string name="action_create_tz">Add record</string>
+    <string name="action_edit_tz">Edit record</string>
+
+    <!-- Errors -->
+    <string name="error_invalid_time_diff">Time difference must be less than 12 and greater than -12.</string>
 
 </resources>

@@ -46,10 +46,12 @@ public class DefaultSubscriber<T> extends rx.Subscriber<T> {
                     || cause instanceof NoConnectionError
                     ) {
                 mBaseView.showNoConnection(true);
+                onError();
                 return;
             }
             if (cause instanceof AuthFailureError) {
                 mBaseView.showMessage("Unauthorized");
+                onError();
                 return;
             }
         }

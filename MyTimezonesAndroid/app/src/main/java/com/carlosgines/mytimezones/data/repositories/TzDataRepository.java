@@ -24,8 +24,8 @@ public class TzDataRepository implements TzRepository {
     }
 
     @Override
-    public void create(final Timezone tz) {
-        mTzRestDataStore.create(tz);
+    public Timezone create(final Timezone tz) {
+        return mTzRestDataStore.create(tz);
     }
 
     @Override
