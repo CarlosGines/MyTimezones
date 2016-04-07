@@ -19,7 +19,7 @@ module.exports = new Schema({
   },
   author: {
     type: {
-      id: { 
+      _id: { 
         type: Schema.Types.ObjectId, 
         ref: 'User',
         required: true

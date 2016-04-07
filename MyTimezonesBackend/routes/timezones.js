@@ -9,7 +9,7 @@ exports.add = function(req, res, next) {
       city: req.body.city,
       timeDiff: req.body.timeDiff,
       author: {
-        id: req.user._id,
+        _id: req.user._id,
         username: req.user.username
       }
     }, function(err, tz) {
@@ -34,7 +34,7 @@ exports.getTzs = function(req, res, next) {
     // }
   }, function(err, tzs) {
     if (!tzs) return res.sendStatus(404);
-    res.json(tzs);
+    res.json({tzs: tzs});
   });
 };
 
