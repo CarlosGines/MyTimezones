@@ -67,6 +67,10 @@ public class TzEditPresenter {
         mNavigator.navigateBackFromTzEditActivity(mTz);
     }
 
+    public void onDestroy() {
+        mCreateTzUseCase.unsubscribe();
+    }
+
     // ========================================================================
     // Private methods
     // ========================================================================

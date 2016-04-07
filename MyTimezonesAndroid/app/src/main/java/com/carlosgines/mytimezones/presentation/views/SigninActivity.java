@@ -89,6 +89,12 @@ public class SigninActivity extends BaseActivity implements SigninView {
                 .build().inject(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
     // ========================================================================
     // User input
     // ========================================================================

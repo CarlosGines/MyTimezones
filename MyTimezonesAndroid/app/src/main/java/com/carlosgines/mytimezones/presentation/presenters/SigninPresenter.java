@@ -152,7 +152,10 @@ public class SigninPresenter {
         return password.length() >= 4;
     }
 
-
+    public void onDestroy() {
+        mSigninUseCase.unsubscribe();
+        mRegisterUseCase.unsubscribe();
+    }
 
     // ========================================================================
     // Use Case Subscribers

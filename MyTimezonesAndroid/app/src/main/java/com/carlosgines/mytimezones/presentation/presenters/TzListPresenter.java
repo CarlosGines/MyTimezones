@@ -76,6 +76,11 @@ public class TzListPresenter {
         mView.render(mTzs);
     }
 
+    public void onDestroy() {
+        mSignoutUseCase.unsubscribe();
+        mGetTzListUseCase.unsubscribe();
+    }
+
     // ========================================================================
     // Use Case Subscribers
     // ========================================================================

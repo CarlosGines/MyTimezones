@@ -105,6 +105,12 @@ public class TzListActivity extends BaseActivity implements TzListView {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         if(resultCode == RESULT_OK && requestCode == Navigator.DEFAULT_RC) {
