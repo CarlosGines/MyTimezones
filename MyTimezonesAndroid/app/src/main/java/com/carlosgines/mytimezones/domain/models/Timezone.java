@@ -11,28 +11,28 @@ public class Timezone {
 
     private String name;
     private String city;
-    private int timeDif;
+    private int timeDiff;
 
     // ========================================================================
     // Constructor
     // ========================================================================
 
-    public Timezone(String name, String city, int timeDif) {
+    public Timezone(String name, String city, int timeDiff) {
         this.name = name;
         this.city = city;
-        this.timeDif = timeDif;
+        this.timeDiff = timeDiff;
     }
 
     // ========================================================================
     // Getters/Setters
     // ========================================================================
 
-    public int getTimeDif() {
-        return timeDif;
+    public int getTimeDiff() {
+        return timeDiff;
     }
 
-    public void setTimeDif(int timeDif) {
-        this.timeDif = timeDif;
+    public void setTimeDiff(int timeDiff) {
+        this.timeDiff = timeDiff;
     }
 
     public String getName() {
