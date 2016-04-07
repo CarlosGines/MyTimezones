@@ -42,5 +42,7 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     // Jackson
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-json-org:2.7.3'
-
+    // Lombok
+    provided "org.projectlombok:lombok:1.12.6"
+    apt "org.projectlombok:lombok:1.12.6"
 }
