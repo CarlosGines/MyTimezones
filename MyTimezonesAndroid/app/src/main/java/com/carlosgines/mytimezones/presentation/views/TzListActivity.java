@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.carlosgines.mytimezones.R;
 import com.carlosgines.mytimezones.domain.models.Timezone;
@@ -15,11 +16,13 @@ import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListView;
+import com.carlosgines.mytimezones.presentation.views.adapters.TzListViewAdapter;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,6 +34,15 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Inject
     TzListPresenter mPresenter;
+
+    @Bind(android.R.id.list)
+    ListView mTzListView;
+
+    /**
+     * Adapter of the timezones list view.
+     */
+    private TzListViewAdapter mAdapter;
+
 
     // ========================================================================
     // Activity lifecycle methods
@@ -50,6 +62,8 @@ public class TzListActivity extends BaseActivity implements TzListView {
     protected void initViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mTzListView.setEmptyView(findViewById(android.R.id.empty));
     }
 
     private void initInjector() {
@@ -104,6 +118,7 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public void render(List<Timezone> timezones) {
-
+        mAdapter = new TzListViewAdapter(this, timezones);
+        mTzListView.setAdapter(mAdapter);
     }
 }

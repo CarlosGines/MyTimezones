@@ -34,6 +34,7 @@
     <!-- ************** -->
 
     <string name="title_activity_tz_list">My timezones</string>
+    <string name="tz_list_empty">No time zone records yet.</string>
     <string name="action_signout">Sign out</string>
 
 </resources>
