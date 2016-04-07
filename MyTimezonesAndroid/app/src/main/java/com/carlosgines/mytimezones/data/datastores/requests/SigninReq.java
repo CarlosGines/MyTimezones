@@ -73,16 +73,11 @@ public class SigninReq extends Req {
     // Request contract
     // ========================================================================
 
-    /**
-     * Request contract
-     */
     public static abstract class Contract {
 
         private static final String ROUTE = "signin";
-
         private static final String REQ_USERNAME = "username";
         private static final String REQ_PASSWORD = "password";
-
         private static final String RES_TOKEN = "token";
     }
 }

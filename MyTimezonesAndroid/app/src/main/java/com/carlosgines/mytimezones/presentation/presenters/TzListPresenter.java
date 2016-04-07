@@ -2,8 +2,11 @@ package com.carlosgines.mytimezones.presentation.presenters;
 
 import com.carlosgines.mytimezones.domain.models.Timezone;
 import com.carlosgines.mytimezones.domain.usecases.CreateTzUseCase;
+import com.carlosgines.mytimezones.domain.usecases.GetTzListUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SignoutUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,6 +31,7 @@ public class TzListPresenter {
 
     // Use cases:
     private final SignoutUseCase mSignoutUseCase;
+    private final GetTzListUseCase mGetTzListUseCase;
     private final CreateTzUseCase mCreateTzUseCase;
 
     // ========================================================================
@@ -38,10 +42,12 @@ public class TzListPresenter {
     public TzListPresenter(final TzListView view,
                            final Navigator navigator,
                            final SignoutUseCase signoutUseCase,
+                           final GetTzListUseCase tzListUseCase,
                            final CreateTzUseCase createTzUseCase) {
         mView = view;
         mNavigator= navigator;
         mSignoutUseCase = signoutUseCase;
+        mGetTzListUseCase = tzListUseCase;
         mCreateTzUseCase = createTzUseCase;
     }
 
@@ -50,7 +56,7 @@ public class TzListPresenter {
     // ========================================================================
 
     public void onInit() {
-
+        mGetTzListUseCase.execute(new GetTzListSubscriber(mView));
     }
 
     public void onSignoutClick() {
@@ -65,6 +71,22 @@ public class TzListPresenter {
     // ========================================================================
     // Use Case Subscribers
     // ========================================================================
+
+    /**
+     * Use case subscriber to receive notifications from CheckAuthSubscriber
+     */
+    private final class GetTzListSubscriber
+            extends DefaultSubscriber<List<Timezone>> {
+
+        public GetTzListSubscriber(final BaseView baseView) {
+            super(baseView);
+        }
+
+        @Override
+        public void onNext(List<Timezone> timezones) {
+            mView.render(timezones);
+        }
+    }
 
     /**
      * Use case subscriber to receive notifications from CheckAuthSubscriber

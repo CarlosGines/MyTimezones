@@ -1,5 +1,7 @@
 package com.carlosgines.mytimezones.domain.models;
 
+import java.util.Date;
+
 /**
  * A time zone.
  */
@@ -9,13 +11,20 @@ public class Timezone {
     // Member variables
     // ========================================================================
 
+    private String _id;
     private String name;
     private String city;
     private int timeDiff;
+    private User author;
+    private Date created;
+    private Date updated;
 
     // ========================================================================
-    // Constructor
+    // Constructors
     // ========================================================================
+
+    public Timezone() {
+    }
 
     public Timezone(String name, String city, int timeDiff) {
         this.name = name;
@@ -27,12 +36,12 @@ public class Timezone {
     // Getters/Setters
     // ========================================================================
 
-    public int getTimeDiff() {
-        return timeDiff;
+    public String get_id() {
+        return _id;
     }
 
-    public void setTimeDiff(int timeDiff) {
-        this.timeDiff = timeDiff;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -49,5 +58,37 @@ public class Timezone {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public int getTimeDiff() {
+        return timeDiff;
+    }
+
+    public void setTimeDiff(int timeDiff) {
+        this.timeDiff = timeDiff;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 }

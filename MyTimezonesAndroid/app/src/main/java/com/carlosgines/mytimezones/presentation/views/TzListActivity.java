@@ -10,10 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.carlosgines.mytimezones.R;
+import com.carlosgines.mytimezones.domain.models.Timezone;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.SigninPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzListView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -97,5 +100,10 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public void showNoConnection(boolean show) {
+    }
+
+    @Override
+    public void render(List<Timezone> timezones) {
+
     }
 }

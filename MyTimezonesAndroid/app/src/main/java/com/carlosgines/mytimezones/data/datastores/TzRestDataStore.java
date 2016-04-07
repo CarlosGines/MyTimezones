@@ -7,6 +7,7 @@ import com.carlosgines.mytimezones.data.datastores.requests.GetTzListReq;
 import com.carlosgines.mytimezones.data.datastores.requests.RegisterReq;
 import com.carlosgines.mytimezones.data.datastores.requests.SigninReq;
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 
 import java.util.List;
 
@@ -24,14 +25,16 @@ public class TzRestDataStore {
      * A context
      */
     private final Context mCtx;
+    private final UserRepository mUserRepository;
 
     // ==========================================================================
     // Constructor
     // ==========================================================================
 
     @Inject
-    public TzRestDataStore(Context ctx) {
+    public TzRestDataStore(final Context ctx, final UserRepository userRepository) {
         mCtx = ctx;
+        mUserRepository = userRepository;
     }
 
     // ==========================================================================
@@ -43,6 +46,6 @@ public class TzRestDataStore {
     }
 
     public List<Timezone> get() {
-        return new GetTzListReq().getTzList(mCtx);
+        return new GetTzListReq().getTzList(mCtx, mUserRepository.getToken());
     }
 }

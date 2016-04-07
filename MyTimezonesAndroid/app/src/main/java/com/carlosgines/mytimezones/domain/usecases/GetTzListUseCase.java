@@ -40,7 +40,7 @@ public class GetTzListUseCase extends UseCase {
     // Public methods
     // ========================================================================
 
-    public void execute(Timezone tz, Subscriber subscriber) {
+    public void execute(Subscriber subscriber) {
         super.execute(subscriber);
     }
 

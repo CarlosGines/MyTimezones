@@ -1,8 +1,8 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
-
-import java.util.concurrent.TimeoutException;
+import com.android.volley.TimeoutError;
 
 /**
  * Default subscriber base class to be used whenever you want default error handling.
@@ -42,10 +42,14 @@ public class DefaultSubscriber<T> extends rx.Subscriber<T> {
         e.printStackTrace();
         Throwable cause = e.getCause();
         if (cause != null) {
-            if (cause instanceof TimeoutException
+            if (cause instanceof TimeoutError
                     || cause instanceof NoConnectionError
                     ) {
                 mBaseView.showNoConnection(true);
+                return;
+            }
+            if (cause instanceof AuthFailureError) {
+                mBaseView.showMessage("Unauthorized");
                 return;
             }
         }

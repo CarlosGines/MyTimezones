@@ -17,26 +17,22 @@ import java.util.concurrent.ExecutionException;
 public class GetTzListReq extends Req {
 
     // ========================================================================
-    // Constants
-    // ========================================================================
-
-    private static final String ROUTE = "timezones";
-
-    // ========================================================================
     // Public methods
     // ========================================================================
 
-    public List<Timezone> getTzList(final Context ctx) {
+    public List<Timezone> getTzList(final Context ctx, final String token) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JsonOrgModule());
             return mapper.convertValue(
-                    send(ctx),
+                    super.send(ctx, token).getJSONArray(Contract.RES_TZS),
                     new TypeReference<List<Timezone>>(){}
             );
         } catch (ExecutionException e) {
             handleExecutionException(e);
             throw null;
+        } catch (JSONException e) {
+            throw new RuntimeException("JSON exception at " + getRoute(), e);
         }
     }
 
@@ -46,7 +42,7 @@ public class GetTzListReq extends Req {
 
     @Override
     public String getRoute() {
-        return ROUTE;
+        return Contract.ROUTE;
     }
 
     @Override
@@ -57,5 +53,15 @@ public class GetTzListReq extends Req {
     @Override
     public JSONObject getJsonRequest() throws JSONException {
         return null;
+    }
+
+    // ========================================================================
+    // Request contract
+    // ========================================================================
+
+    public static abstract class Contract {
+
+        private static final String ROUTE = "timezones";
+        private static final String RES_TZS = "tzs";
     }
 }

@@ -34,7 +34,7 @@ public class RegisterReq extends Req {
 
     public String register(final Context ctx) {
         try {
-            return send(ctx).getString(Contract.RES_TOKEN);
+            return super.send(ctx).getString(Contract.RES_TOKEN);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
             if (cause instanceof ServerError &&

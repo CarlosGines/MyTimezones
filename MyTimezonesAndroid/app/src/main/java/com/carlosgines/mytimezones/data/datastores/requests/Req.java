@@ -4,11 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.ServerError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 
 import org.json.JSONException;
@@ -34,9 +34,20 @@ public abstract class Req {
      */
     protected JSONObject send(final Context ctx)
             throws ExecutionException {
+        return send(ctx, null);
+    }
+
+    /**
+     * Send a synchronous volley request.
+     * @param ctx A context.
+     * @param token Auth token to use in the request.
+     * @return The body of the response as JSON.
+     */
+    protected JSONObject send(final Context ctx, final String token)
+            throws ExecutionException {
         final String route = getRoute();
         try {
-            final JSONObject response = prepare(ctx)
+            final JSONObject response = prepare(ctx, token)
                     .get(30, TimeUnit.SECONDS);
             Log.d(route, "Response:\n" + response.toString(4));
             return response;
@@ -52,21 +63,23 @@ public abstract class Req {
     /**
      * Prepare a volley request to be sent.
      * @param ctx A context.
+     * @param token Auth token to use in the request.
      * @return A RequestFuture ready to be sent.
      */
-    private RequestFuture<JSONObject> prepare(final Context ctx)
+    private RequestFuture<JSONObject> prepare(final Context ctx,
+                                              final String token)
             throws JSONException {
         final Uri.Builder uriBuilder = new Uri.Builder()
                 .encodedPath(VolleyAdapter.getBaseUrl())
                 .appendEncodedPath(getRoute());
         final RequestFuture<JSONObject> future = RequestFuture.newFuture();
         VolleyAdapter.getInstance(ctx).addToRequestQueue(
-                new JsonObjectRequest(
+                new TzVolleyReq(
                         getMethod(),
                         uriBuilder.toString(),
                         getJsonRequest(),
                         future,
-                        future
+                        token
                 )
         );
         Log.d(
@@ -142,6 +155,8 @@ public abstract class Req {
             throw new RuntimeException("NoConnectionError at " + route, cause);
         } else if (cause instanceof ServerError) {
             throw new RuntimeException("ServerError at " + route, cause);
+        } else if (cause instanceof AuthFailureError) {
+            throw new RuntimeException("AuthFailureError at " + route, cause);
         } else if (cause instanceof ParseError) {
             throw new RuntimeException("Volley ParseError at " + route, cause);
         } else {

@@ -40,7 +40,7 @@ public class CreateTzReq extends Req {
 
     public void createTz(final Context ctx) {
         try {
-            send(ctx);
+            super.send(ctx);
         } catch (ExecutionException e) {
             handleExecutionException(e);
         }
