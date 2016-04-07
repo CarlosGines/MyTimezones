@@ -42,7 +42,7 @@ exports.checkTz = function(req, res, next) {
   req.db.Timezone.findById(req.params.id, function(err, tz) {
     if (err) return next(err);
     if (!tz) return res.sendStatus(404);
-    if (!req.user.admin && !req.user._id.equals(tz.author.id)) {
+    if (!req.user.admin && !req.user._id.equals(tz.author._id)) {
       return res.status(401)
         .json('User not authorized to access/modify this timezone');
     }
