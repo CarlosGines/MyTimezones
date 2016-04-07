@@ -67,13 +67,15 @@ public class TzListPresenter {
     }
 
     public void onBackFromTzEdit(final Timezone tz) {
-        final int index = mTzs.indexOf(tz);
-        if(index == -1) {
-            mTzs.add(tz);
-        } else {
-            mTzs.set(index, tz);
+        if (tz != null) {
+            final int index = mTzs.indexOf(tz);
+            if (index == -1) {
+                mTzs.add(tz);
+            } else {
+                mTzs.set(index, tz);
+            }
+            mView.render(mTzs);
         }
-        mView.render(mTzs);
     }
 
     public void onDestroy() {
