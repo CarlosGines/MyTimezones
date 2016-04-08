@@ -32,8 +32,24 @@ exports.init = function(app, User) {
   app.use(passport.initialize());
 };
 
-exports.localAuth = passport.authenticate('local', {session: false});
-exports.tokenAuth = passport.authenticate('bearer', {session: false});
+exports.localAuth = passport.authenticate(
+  'local', 
+  {
+    session: false,
+    failureRedirect: '/authFail'
+  }
+);
+exports.tokenAuth = passport.authenticate(
+  'bearer',
+  {
+    session: false,
+    failureRedirect: '/authFail'
+  }
+);
+
+exports.fail = function(req, res) {
+  res.sendStatus(403);
+};
 
 exports.signin = function(req, res) {
   res.json({token: req.user.token})

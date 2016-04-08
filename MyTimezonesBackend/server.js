@@ -37,6 +37,7 @@ app.get('/', function(req, res) {
 // AUTH
 app.post('/register', db, routes.auth.register);
 app.post('/signin', localAuth, db, routes.auth.signin);
+app.use('/authFail', routes.auth.fail);
 
 // TIMEZONES
 app.get('/timezones', tokenAuth, db, routes.tzs.getTzs);
