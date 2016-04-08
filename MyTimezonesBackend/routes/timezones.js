@@ -24,18 +24,17 @@ exports.add = function(req, res, next) {
 };
 
 exports.getTzs = function(req, res, next) {
-  // var limit = req.query.limit || LIMIT;
-  // var skip = req.query.skip || SKIP;
-  req.db.Timezone.find({}, {__v:0}, {
-    // limit: limit,
-    // skip: skip,
-    // sort: {
-    //   '_id': -1
-    // }
-  }, function(err, tzs) {
-    if (!tzs) return res.sendStatus(404);
-    res.json({tzs: tzs});
-  });
+  var query = {}
+  if (!req.user.admin) {
+    query = {'author._id': req.user._id}
+  }
+  req.db.Timezone.find(
+    query,
+    function(err, tzs) {
+      if (!tzs) return res.sendStatus(404);
+      res.json({tzs: tzs});
+    }
+  );
 };
 
 exports.checkTz = function(req, res, next) {
