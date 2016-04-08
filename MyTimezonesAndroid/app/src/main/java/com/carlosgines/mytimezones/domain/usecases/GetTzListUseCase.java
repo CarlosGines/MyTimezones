@@ -29,9 +29,9 @@ public class GetTzListUseCase extends UseCase {
     // ========================================================================
 
     @Inject
-    public GetTzListUseCase(TzRepository tzRepository,
-                            ThreadExecutor threadExecutor,
-                            PostExecutionThread postExecutionThread) {
+    public GetTzListUseCase(final TzRepository tzRepository,
+                            final ThreadExecutor threadExecutor,
+                            final PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mTzRepository = tzRepository;
     }
@@ -40,7 +40,7 @@ public class GetTzListUseCase extends UseCase {
     // Public methods
     // ========================================================================
 
-    public void execute(Subscriber subscriber) {
+    public void execute(final Subscriber subscriber) {
         super.execute(subscriber);
     }
 

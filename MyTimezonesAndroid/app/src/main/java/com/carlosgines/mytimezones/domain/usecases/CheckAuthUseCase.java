@@ -26,9 +26,9 @@ public class CheckAuthUseCase extends UseCase {
     // ========================================================================
 
     @Inject
-    public CheckAuthUseCase(UserRepository userRepository,
-                            ThreadExecutor threadExecutor,
-                            PostExecutionThread postExecutionThread) {
+    public CheckAuthUseCase(final UserRepository userRepository,
+                            final ThreadExecutor threadExecutor,
+                            final PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
@@ -37,7 +37,7 @@ public class CheckAuthUseCase extends UseCase {
     // Public methods
     // ========================================================================
 
-    public void execute(Subscriber subscriber) {
+    public void execute(final Subscriber subscriber) {
         super.execute(subscriber);
     }
 

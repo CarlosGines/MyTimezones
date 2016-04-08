@@ -27,9 +27,9 @@ public class RegisterUseCase extends UseCase {
     // ========================================================================
 
     @Inject
-    public RegisterUseCase(UserRepository userRepository,
-                           ThreadExecutor threadExecutor,
-                           PostExecutionThread postExecutionThread) {
+    public RegisterUseCase(final UserRepository userRepository,
+                           final ThreadExecutor threadExecutor,
+                           final PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
@@ -39,7 +39,7 @@ public class RegisterUseCase extends UseCase {
     // ========================================================================
 
     public void execute(final String userName, final String password,
-                        Subscriber subscriber) {
+                        final Subscriber subscriber) {
         mUserName = userName;
         mPassword = password;
         super.execute(subscriber);

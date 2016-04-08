@@ -25,9 +25,9 @@ public class SignoutUseCase extends UseCase {
     // ========================================================================
 
     @Inject
-    public SignoutUseCase(UserRepository userRepository,
-                          ThreadExecutor threadExecutor,
-                          PostExecutionThread postExecutionThread) {
+    public SignoutUseCase(final UserRepository userRepository,
+                          final ThreadExecutor threadExecutor,
+                          final PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
@@ -36,7 +36,7 @@ public class SignoutUseCase extends UseCase {
     // Public methods
     // ========================================================================
 
-    public void execute(Subscriber subscriber) {
+    public void execute(final Subscriber subscriber) {
         super.execute(subscriber);
     }
 

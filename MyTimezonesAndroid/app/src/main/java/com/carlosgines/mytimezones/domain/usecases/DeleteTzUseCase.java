@@ -27,9 +27,9 @@ public class DeleteTzUseCase extends UseCase {
     // ========================================================================
 
     @Inject
-    public DeleteTzUseCase(TzRepository tzRepository,
-                           ThreadExecutor threadExecutor,
-                           PostExecutionThread postExecutionThread) {
+    public DeleteTzUseCase(final TzRepository tzRepository,
+                           final ThreadExecutor threadExecutor,
+                           final PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mTzRepository = tzRepository;
     }
@@ -38,7 +38,7 @@ public class DeleteTzUseCase extends UseCase {
     // Public methods
     // ========================================================================
 
-    public void execute(Timezone tz, Subscriber subscriber) {
+    public void execute(final Timezone tz, final Subscriber subscriber) {
         mTz = tz;
         super.execute(subscriber);
     }

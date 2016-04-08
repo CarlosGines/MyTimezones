@@ -32,7 +32,8 @@ public abstract class UseCase {
     // Constructor
     // ==========================================================================
 
-    protected UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    protected UseCase(final ThreadExecutor threadExecutor,
+                      final PostExecutionThread postExecutionThread) {
         mThreadExecutor = threadExecutor;
         mPostExecutionThread = postExecutionThread;
     }
@@ -56,7 +57,7 @@ public abstract class UseCase {
      *                          #buildUseCaseObservable().
      */
     @SuppressWarnings("unchecked")
-    protected void execute(Subscriber useCaseSubscriber) {
+    protected void execute(final Subscriber useCaseSubscriber) {
         mSubscription = this.buildUseCaseObservable()
                 .subscribeOn(Schedulers.from(mThreadExecutor))
                 .observeOn(mPostExecutionThread.getScheduler())
