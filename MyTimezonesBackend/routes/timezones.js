@@ -24,9 +24,23 @@ exports.add = function(req, res, next) {
 };
 
 exports.getTzs = function(req, res, next) {
-  var query = {}
+  var query = {};
   if (!req.user.admin) {
-    query = {'author._id': req.user._id}
+    query['author._id'] = req.user._id;
+  }
+  req.db.Timezone.find(
+    query,
+    function(err, tzs) {
+      if (!tzs) return res.sendStatus(404);
+      res.json({tzs: tzs});
+    }
+  );
+};
+
+exports.filter = function(req, res, next) {
+  var query = {name: new RegExp(req.params.term)};
+  if (!req.user.admin) {
+    query['author._id'] = req.user._id;
   }
   req.db.Timezone.find(
     query,
