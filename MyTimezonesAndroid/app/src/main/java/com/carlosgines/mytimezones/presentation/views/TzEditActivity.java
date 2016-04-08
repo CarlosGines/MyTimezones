@@ -121,7 +121,7 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     }
 
     @Override
-    public void setViewMode(ViewMode mode, Timezone tz) {
+    public void setViewMode(final ViewMode mode, final Timezone tz) {
         if (mode.equals(ViewMode.CREATE)) {
             setTitle(R.string.title_create_tz);
             mActionButton.setText(R.string.action_create_tz);
@@ -166,7 +166,7 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     }
 
     @Override
-    public void showEditSuccess(ViewMode mode) {
+    public void showEditSuccess(final ViewMode mode) {
         Snackbar.make(
                 mActionButton,
                 mode.equals(ViewMode.CREATE) ?

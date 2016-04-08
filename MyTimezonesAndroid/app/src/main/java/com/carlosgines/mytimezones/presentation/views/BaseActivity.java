@@ -18,14 +18,15 @@ import com.carlosgines.mytimezones.presentation.presenters.BaseView;
 /**
  * Base Activity class for every Activity in this application.
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity extends AppCompatActivity
+        implements BaseView {
 
     // ==========================================================================
     // Activity lifecycle methods
     // ==========================================================================
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getApplicationComponent().inject(this);
     }
@@ -35,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     // ==========================================================================
 
     @Override
-    public void showProgress(boolean show) {
+    public void showProgress(final boolean show) {
     }
 
     @Override
@@ -46,12 +47,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showMessage(final String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showErrorMessage(Throwable e) {
+    public void showErrorMessage(final Throwable e) {
         // Throwable cause = e.getCause();
         if (BuildConfig.DEBUG) {
             // Custom RuntimeExceptions must have explicit debug message set as the detail message.
@@ -65,7 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     // Public methods
     // ==========================================================================
 
-    public void showMessage(int resId) {
+    public void showMessage(final int resId) {
         Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
     }
 

@@ -19,7 +19,7 @@ public class LauncherActivity extends BaseActivity implements LauncherView {
     LauncherPresenter mPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         initViews();
@@ -40,13 +40,5 @@ public class LauncherActivity extends BaseActivity implements LauncherView {
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .build().inject(this);
-    }
-
-    @Override
-    public void showProgress(boolean show) {
-    }
-
-    @Override
-    public void showNoConnection(boolean show) {
     }
 }
