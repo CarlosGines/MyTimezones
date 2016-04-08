@@ -46,6 +46,12 @@
 		<button ng-click="appCtrl.getTzs()">Get time zones</button>
 	</div>
   <hr></hr>
+  <h3>Get timezones list filtered by names</h3>
+  <input ng-model="term" type="text" placeholder="term"></input>
+  <div>
+    <button ng-click="appCtrl.filterTzs()">Filter time zones</button>
+  </div>
+  <hr></hr>
   <h3>Get timezone</h3>
   <div>
     <input ng-model="_id" type="text" placeholder="_id"></input>

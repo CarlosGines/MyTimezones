@@ -61,6 +61,11 @@
       sendGet(route);
     }
 
+    this.filterTzs = function() {
+      var route = "/timezones/filter/" + $scope.term ;
+      sendGet(route);
+    }
+
     this.getTz = function() {
       var route = "/timezones/" + $scope._id;
       sendGet(route);
