@@ -19,7 +19,7 @@ public class TzDataRepository implements TzRepository {
     private final TzRestDataStore mTzRestDataStore;
 
     @Inject
-    public TzDataRepository(TzRestDataStore tzRestDataStore) {
+    public TzDataRepository(final TzRestDataStore tzRestDataStore) {
         mTzRestDataStore = tzRestDataStore;
     }
 
@@ -34,12 +34,17 @@ public class TzDataRepository implements TzRepository {
     }
 
     @Override
-    public Timezone edit(Timezone tz) {
+    public Timezone edit(final Timezone tz) {
         return mTzRestDataStore.edit(tz);
     }
 
     @Override
-    public Timezone delete(Timezone tz) {
+    public List<Timezone> search(final String text) {
+        return mTzRestDataStore.search(text);
+    }
+
+    @Override
+    public Timezone delete(final Timezone tz) {
         return mTzRestDataStore.delete(tz);
     }
 }

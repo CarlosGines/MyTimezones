@@ -17,8 +17,8 @@ public interface TzRepository {
     Timezone create(Timezone tz);
 
     /**
-     * Get the list of timezone records of this user.
-     * @return the list of timezone records of this user.
+     * Get the list of timezone records that this user has access to.
+     * @return a list of timezone records.
      */
     List<Timezone> get();
 
@@ -27,6 +27,14 @@ public interface TzRepository {
      * @return the edited record.
      */
     Timezone edit(Timezone tz);
+
+    /**
+     * Get the list of timezone records that this user has access to and meet
+     * the filtering criteria of time zones searched by name text.
+     * @param text A text to filter the time zones list.
+     * @return a list of timezone records.
+     */
+    List<Timezone> search(String text);
 
     /**
      * Delete a timezone record.

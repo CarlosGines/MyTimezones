@@ -5,10 +5,14 @@
     <!-- Common -->
     <!-- ****** -->
 
+    <!-- Actions -->
+    <string name="action_delete">Delete</string>
+    <string name="action_search">Search</string>
+
+    <!-- Errors -->
     <string name="unexpected_error">Oops! Something went wrong!</string>
     <string name="no_connection">No connection</string>
     <string name="error_field_required">This field is required</string>
-    <string name="action_delete">Delete</string>
 
     <!-- *************** -->
     <!-- Signin Activity -->

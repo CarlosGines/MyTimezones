@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,13 +51,14 @@ public class TzListActivity extends BaseActivity implements TzListView {
      */
     private TzListViewAdapter mAdapter;
 
+
     /**
      * Timer to update timezones current time.
      */
     private final CountDownTimer mTimer = new CountDownTimer(100000000, 1000) {
 
-        public void onTick(long millisUntilFinished) {
-            if(mAdapter != null && mAdapter.getCount() > 0) {
+        public void onTick(final long millisUntilFinished) {
+            if (mAdapter != null && mAdapter.getCount() > 0) {
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -71,7 +73,7 @@ public class TzListActivity extends BaseActivity implements TzListView {
     // ========================================================================
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tz_list);
         ButterKnife.bind(this);
@@ -112,11 +114,11 @@ public class TzListActivity extends BaseActivity implements TzListView {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        if(resultCode == RESULT_OK && requestCode == Navigator.DEFAULT_RC) {
+    protected void onActivityResult(final int requestCode,final int resultCode,
+                                    final Intent data) {
+        if (resultCode == RESULT_OK && requestCode == Navigator.DEFAULT_RC) {
             mPresenter.onBackFromTzEdit(
-                    (Timezone)data.getSerializableExtra(Navigator.TZ_KEY)
+                    (Timezone) data.getSerializableExtra(Navigator.TZ_KEY)
             );
         }
     }
@@ -126,12 +128,12 @@ public class TzListActivity extends BaseActivity implements TzListView {
     // ========================================================================
 
     @OnClick(R.id.fab)
-    public void onFabClick(View v) {
+    public void onFabClick() {
         mPresenter.onCreateTzClick();
     }
 
     @OnItemClick(android.R.id.list)
-    public void onItemClick(int pos) {
+    public void onItemClick(final int pos) {
         mPresenter.onItemClick(pos);
     }
 
@@ -140,13 +142,31 @@ public class TzListActivity extends BaseActivity implements TzListView {
     // ========================================================================
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.tz_list_menu, menu);
+        (
+                (SearchView) MenuItemCompat.getActionView(
+                        menu.findItem(R.id.action_search)
+                )
+        ).setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        mPresenter.onQueryTextChange(newText);
+                        return true;
+                    }
+                }
+        );
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_signout:
                 mPresenter.onSignoutClick();
@@ -155,19 +175,20 @@ public class TzListActivity extends BaseActivity implements TzListView {
         return super.onOptionsItemSelected(item);
     }
 
-    // ==========================================================================
+    // ========================================================================
     // Context menu
-    // ==========================================================================
+    // ========================================================================
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(final ContextMenu menu, final View v,
+                                    final ContextMenu
+                                            .ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.tz_list_ctx_menu, menu);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         AdapterView.AdapterContextMenuInfo info =
                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
@@ -189,11 +210,13 @@ public class TzListActivity extends BaseActivity implements TzListView {
     }
 
     @Override
-    public void render(List<Timezone> timezones) {
-        if(mAdapter == null) {
+    public void render(final List<Timezone> timezones) {
+        if (mAdapter == null) {
             mAdapter = new TzListViewAdapter(this, timezones);
             mTzListView.setAdapter(mAdapter);
         } else {
+            mAdapter.clear();
+            mAdapter.addAll(timezones);
             mAdapter.notifyDataSetChanged();
         }
     }

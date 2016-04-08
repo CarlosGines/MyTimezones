@@ -3,6 +3,7 @@ package com.carlosgines.mytimezones.presentation.presenters;
 import com.carlosgines.mytimezones.domain.models.Timezone;
 import com.carlosgines.mytimezones.domain.usecases.DeleteTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.GetTzListUseCase;
+import com.carlosgines.mytimezones.domain.usecases.SearchTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SignoutUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
 
@@ -32,6 +33,7 @@ public class TzListPresenter {
     // Use cases:
     private final SignoutUseCase mSignoutUseCase;
     private final GetTzListUseCase mGetTzListUseCase;
+    private final SearchTzUseCase mSearchTzUseCase;
     private final DeleteTzUseCase mDeleteTzUseCase;
 
     // View state:
@@ -46,12 +48,14 @@ public class TzListPresenter {
                            final Navigator navigator,
                            final SignoutUseCase signoutUseCase,
                            final GetTzListUseCase tzListUseCase,
+                           final SearchTzUseCase tzUseCase,
                            final DeleteTzUseCase deleteTztUseCase) {
         mView = view;
         mNavigator= navigator;
         mSignoutUseCase = signoutUseCase;
         mGetTzListUseCase = tzListUseCase;
         mDeleteTzUseCase = deleteTztUseCase;
+        mSearchTzUseCase = tzUseCase;
     }
 
     // ========================================================================
@@ -91,9 +95,19 @@ public class TzListPresenter {
         }
     }
 
+    public void onQueryTextChange(final String newText) {
+        mView.showProgress(true);
+        if(newText.isEmpty()) {
+            mGetTzListUseCase.execute(new GetTzListSubscriber(mView));
+        } else {
+            mSearchTzUseCase.execute(newText, new GetTzListSubscriber(mView));
+        }
+    }
+
     public void onDestroy() {
         mSignoutUseCase.unsubscribe();
         mGetTzListUseCase.unsubscribe();
+        mSearchTzUseCase.unsubscribe();
         mDeleteTzUseCase.unsubscribe();
     }
 
@@ -113,8 +127,11 @@ public class TzListPresenter {
 
         @Override
         public void onNext(List<Timezone> tzs) {
+            final int size = mTzs == null ? 0 : mTzs.size();
             mTzs = tzs;
-            mView.render(mTzs);
+            if(tzs.size() != size) {
+                mView.render(mTzs);
+            }
             mView.showProgress(false);
         }
     }
