@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- External js dependencies - local -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
+	<!-- Project js dependencies -->
+	<script type="text/javascript" src="app.js"></script>
+
+</head>
+<body ng-controller="appCtrl as appCtrl">
+	
+	<h2>Mock My timezone client</h2>
+	<hr></hr>
+  <h3>Auth</h3>
+	<div>
+    <div>
+      <input ng-model="token" type="text" placeholder="token"></input>
+    </div>
+		<div>
+			<input ng-model="username" type="text" placeholder="username"></input>
+			<input ng-model="password" type="text" placeholder="password"></input>
+		</div>
+    <div>
+      <button ng-click="register()">Register</button>
+      <button ng-click="signin()">Sign in</button>
+    </div>
+	</div>
+	<hr></hr>
+  <h3>Create</h3>
+	<div>
+    <div>
+      <input ng-model="name" type="text" placeholder="name"></input>
+      <input ng-model="city" type="text" placeholder="city"></input>
+      <input ng-model="timeDiff" type="text" placeholder="timeDiff"></input>
+    </div>
+    <div>
+      <button ng-click="createTz()">Create time zone</button>
+    </div>
+	</div>
+  <hr></hr>
+  <h3>Get timezones list</h3>
+	<div>
+		<button ng-click="appCtrl.getTzs()">Get time zones</button>
+	</div>
+  <hr></hr>
+  <h3>Get timezone</h3>
+  <div>
+    <input ng-model="_id" type="text" placeholder="_id"></input>
+  </div>
+	<div>
+		<button ng-click="appCtrl.getTz()">Get time zone</button>
+	</div>
+  <hr></hr>
+  <h3>Update timezone</h3>
+  <div>
+    <input ng-model="_id" type="text" placeholder="_id"></input>
+  </div>
+  <div>
+    <input ng-model="name" type="text" placeholder="name"></input>
+    <input ng-model="city" type="text" placeholder="city"></input>
+    <input ng-model="timeDiff" type="text" placeholder="timeDiff"></input>
+  </div>
+	<div>
+		<button ng-click="appCtrl.updateTz()">Update time zone</button>
+	</div>
+  <hr></hr>
+  <h3>Delete timezone</h3>
+  <div>
+    <input ng-model="_id" type="text" placeholder="_id"></input>
+  </div>
+	<div>
+		<button ng-click="appCtrl.deleteTz()">Delete time zone</button>
+	</div>
+
+	<h2>RESPONSE:</h2>
+	<pre>{{res}}</pre>
+
+</body>
+</html>
