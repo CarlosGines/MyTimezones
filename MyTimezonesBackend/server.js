@@ -45,7 +45,7 @@ app.post('/timezones', tokenAuth, db, routes.tzs.add);
 app.get('/timezones/:id', tokenAuth, db, routes.tzs.checkTz, routes.tzs.getTz);
 app.put('/timezones/:id', tokenAuth, db, routes.tzs.checkTz, routes.tzs.updateTz);
 app.delete('/timezones/:id', tokenAuth, db, routes.tzs.checkTz, routes.tzs.del);
-app.get('/timezones/filter/:term', tokenAuth, db, routes.tzs.filter);
+app.get('/timezones/search/:text', tokenAuth, db, routes.tzs.search);
 
 app.use(function(req, res){
     res.sendStatus(404);

@@ -37,8 +37,8 @@ exports.getTzs = function(req, res, next) {
   );
 };
 
-exports.filter = function(req, res, next) {
-  var query = {name: new RegExp(req.params.term)};
+exports.search = function(req, res, next) {
+  var query = {name: new RegExp(req.params.text)};
   if (!req.user.admin) {
     query['author._id'] = req.user._id;
   }
