@@ -46,7 +46,7 @@
     <string name="title_activity_tz_list">My timezones</string>
 
     <!-- Labels -->
-    <string name="tz_list_empty">No time zone records yet.</string>
+    <string name="tz_list_empty">No time zone records.</string>
     <string name="action_signout">Sign out</string>
     <string name="log_tz_delete_success">Time zone record deleted</string>
 

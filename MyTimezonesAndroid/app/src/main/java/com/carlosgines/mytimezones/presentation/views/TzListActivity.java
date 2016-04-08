@@ -205,7 +205,6 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public void showProgress(final boolean show) {
-        super.closeKeyboard();
         super.showProgress(show, mProgressView, mContentView);
     }
 
