@@ -77,7 +77,7 @@ public class TzListPresenter {
     }
 
     public void onCreateTzClick() {
-        mNavigator.navigateToTzEditActivity(null, null);
+        mNavigator.navigateToTzEditActivity(null, mUser);
     }
 
     public void onItemClick(int pos) {

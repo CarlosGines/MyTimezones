@@ -114,7 +114,7 @@ public class TzListActivity extends BaseActivity implements TzListView {
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,final int resultCode,
+    protected void onActivityResult(final int requestCode, final int resultCode,
                                     final Intent data) {
         if (resultCode == RESULT_OK && requestCode == Navigator.DEFAULT_RC) {
             mPresenter.onBackFromTzEdit(
@@ -210,12 +210,8 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
     @Override
     public void render(final List<Timezone> timezones, final boolean showAuthor) {
-        if (mAdapter == null) {
-            mAdapter = new TzListViewAdapter(this, timezones, showAuthor);
-            mTzListView.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyDataSetChanged();
-        }
+        mAdapter = new TzListViewAdapter(this, timezones, showAuthor);
+        mTzListView.setAdapter(mAdapter);
     }
 
     @Override
