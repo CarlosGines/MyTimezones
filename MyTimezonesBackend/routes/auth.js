@@ -52,7 +52,14 @@ exports.fail = function(req, res) {
 };
 
 exports.signin = function(req, res) {
-  res.json({token: req.user.token})
+  res.json(
+    {
+      _id: req.user._id,
+      username: req.user.username,
+      admin: req.user.admin,
+      token: req.user.token
+    }
+  )
 };
 
 exports.register = function(req, res, next) {
@@ -66,12 +73,19 @@ exports.register = function(req, res, next) {
         username: req.body.username,
         password: req.body.password,
         token: uuid.v4()
-      }, function(err, doc) {
+      }, function(err, user) {
         if (err) {
           console.error(err);
           return next(err);
         }
-        res.json({token: doc.token})
+        res.json(
+          {
+            _id: user._id,
+            username: user.username,
+            admin: user.admin,
+            token: user.token
+          }
+        )
       });
     }
   );
