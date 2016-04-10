@@ -26,14 +26,21 @@ public class TzListViewAdapter extends ArrayAdapter<Timezone> {
 	 */
 	private final LayoutInflater mInflater;
 
+    /**
+     * Whether the author of the record needs to be displayed.
+     */
+    private final boolean mShowAuthor;
+
     // ========================================================================
     // Constructor
     // ========================================================================
 
-	public TzListViewAdapter(final Context ctx, final List<Timezone> tzList) {
-		super(ctx, 0, tzList);
+    public TzListViewAdapter(final Context ctx, final List<Timezone> tzList,
+                             final boolean showAuthor) {
+        super(ctx, 0, tzList);
 		mInflater = LayoutInflater.from(ctx);
-	}
+        mShowAuthor = showAuthor;
+    }
 
     // ========================================================================
     // ArrayAdapter methods
@@ -51,8 +58,12 @@ public class TzListViewAdapter extends ArrayAdapter<Timezone> {
 		final Timezone tz = getItem(position);
 		final TextView nameTv = (TextView) resultView.findViewById(R.id.name);
         final TextView cityTv = (TextView) resultView.findViewById(R.id.city);
-        final TextView timeDiffTv = (TextView) resultView.findViewById(R.id.timeDiff);
-        final TextView currentTimeTv = (TextView) resultView.findViewById(R.id.currentTime);
+        final TextView timeDiffTv = (TextView) resultView.
+                findViewById(R.id.timeDiff);
+        final TextView currentTimeTv = (TextView) resultView.
+                findViewById(R.id.currentTime);
+        final TextView authorTv = (TextView) resultView.
+                findViewById(R.id.author);
         nameTv.setText(tz.getName());
         cityTv.setText(tz.getCity());
         if (tz.getTimeDiff() > 0) {
@@ -61,6 +72,10 @@ public class TzListViewAdapter extends ArrayAdapter<Timezone> {
             timeDiffTv.setText(String.format("%d", tz.getTimeDiff()));
         }
         currentTimeTv.setText(tz.getFormattedCurrentDateTime());
+        if (mShowAuthor) {
+            authorTv.setVisibility(View.VISIBLE);
+            authorTv.setText(tz.getAuthor().getUsername());
+        }
         return resultView;
 	}
 }

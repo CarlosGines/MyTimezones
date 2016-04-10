@@ -10,9 +10,11 @@ import java.util.List;
 public interface TzListView extends BaseView {
 
     /**
-     * Render a list of timezones.
+     * * Render a list of timezones.
+     * @param timezones the timezones to render.
+     * @param showAuthor whether to show the author of the time zone records.
      */
-    void render(List<Timezone> timezones);
+    void render(List<Timezone> timezones, boolean showAuthor);
 
     /**
      * Show feedback about a time zone record successfully deleted.

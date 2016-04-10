@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.models.User;
 import com.carlosgines.mytimezones.domain.usecases.CreateTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.EditTzUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
@@ -34,6 +35,7 @@ public class TzEditPresenter {
     private final EditTzUseCase mEditTzUseCase;
 
     // View state:
+    private User mUser;
     private TzEditView.ViewMode mMode;
     private Timezone mTz;
 
@@ -57,10 +59,11 @@ public class TzEditPresenter {
     // ========================================================================
 
     public void onInit(Bundle extras) {
+        mUser = (User) extras.getSerializable(Navigator.USER_KEY);
         mTz = (Timezone) extras.getSerializable(Navigator.TZ_KEY);
         mMode = mTz == null ? TzEditView.ViewMode.CREATE :
                 TzEditView.ViewMode.EDIT;
-        mView.setViewMode(mMode, mTz);
+        mView.setViewMode(mMode, mTz, mUser);
     }
 
     public void onActionClick(final String name, final String city,
@@ -171,7 +174,7 @@ public class TzEditPresenter {
             mView.showProgress(false);
             mView.showEditSuccess(mMode);
             if (mMode.equals(TzEditView.ViewMode.CREATE)) {
-                mView.setViewMode(TzEditView.ViewMode.EDIT, mTz);
+                mView.setViewMode(TzEditView.ViewMode.EDIT, mTz, mUser);
             }
         }
     }

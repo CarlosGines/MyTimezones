@@ -1,6 +1,9 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
+import android.os.Bundle;
+
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.models.User;
 import com.carlosgines.mytimezones.domain.usecases.DeleteTzUseCase;
 import com.carlosgines.mytimezones.domain.usecases.GetTzListUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SearchTzUseCase;
@@ -38,6 +41,7 @@ public class TzListPresenter {
 
     // View state:
     private List<Timezone> mTzs;
+    private User mUser;
 
     // ========================================================================
     // Constructor
@@ -62,7 +66,8 @@ public class TzListPresenter {
     // View events
     // ========================================================================
 
-    public void onInit() {
+    public void onInit(final Bundle extras) {
+        mUser = (User) extras.getSerializable(Navigator.USER_KEY);
         mView.showProgress(true);
         mGetTzListUseCase.execute(new GetTzListSubscriber(mView));
     }
@@ -72,11 +77,11 @@ public class TzListPresenter {
     }
 
     public void onCreateTzClick() {
-        mNavigator.navigateToTzEditActivity(null);
+        mNavigator.navigateToTzEditActivity(null, null);
     }
 
     public void onItemClick(int pos) {
-        mNavigator.navigateToTzEditActivity(mTzs.get(pos));
+        mNavigator.navigateToTzEditActivity(mTzs.get(pos), mUser);
     }
 
     public void onDeleteClick(int pos) {
@@ -91,8 +96,8 @@ public class TzListPresenter {
             } else {
                 mTzs.set(index, tz);
             }
-            mView.render(mTzs);
         }
+        mView.render(mTzs, mUser.isAdmin());
     }
 
     public void onQueryTextChange(final String newText) {
@@ -130,7 +135,7 @@ public class TzListPresenter {
             final int size = mTzs == null ? 0 : mTzs.size();
             mTzs = tzs;
             if(tzs.size() != size) {
-                mView.render(mTzs);
+                mView.render(mTzs, mUser.isAdmin());
             }
             mView.showProgress(false);
         }
@@ -150,7 +155,7 @@ public class TzListPresenter {
         public void onNext(Timezone tz) {
             mTzs.remove(tz);
             mView.showDeleteSuccess();
-            mView.render(mTzs);
+            mView.render(mTzs, mUser.isAdmin());
         }
     }
 

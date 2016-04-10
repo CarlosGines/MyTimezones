@@ -80,7 +80,7 @@ public class TzListActivity extends BaseActivity implements TzListView {
 
         this.initViews();
         this.initInjector();
-        mPresenter.onInit();
+        mPresenter.onInit(getIntent().getExtras());
     }
 
     protected void initViews() {
@@ -209,13 +209,11 @@ public class TzListActivity extends BaseActivity implements TzListView {
     }
 
     @Override
-    public void render(final List<Timezone> timezones) {
+    public void render(final List<Timezone> timezones, final boolean showAuthor) {
         if (mAdapter == null) {
-            mAdapter = new TzListViewAdapter(this, timezones);
+            mAdapter = new TzListViewAdapter(this, timezones, showAuthor);
             mTzListView.setAdapter(mAdapter);
         } else {
-            mAdapter.clear();
-            mAdapter.addAll(timezones);
             mAdapter.notifyDataSetChanged();
         }
     }

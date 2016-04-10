@@ -42,11 +42,11 @@ public class CreateTzReq extends Req {
 
     public Timezone createTz(final Context ctx, final String token) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JsonOrgModule());
             return mapper.convertValue(super.send(ctx, token), Timezone.class);
         } catch (ExecutionException e) {
-            handleExecutionException(e);
+            super.handleExecutionException(e);
             throw null;
         }
     }
@@ -67,7 +67,7 @@ public class CreateTzReq extends Req {
 
     @Override
     public JSONObject getJsonRequest() throws JSONException {
-        ObjectMapper mapper = new ObjectMapper();
+        final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JsonOrgModule());
         return mapper.convertValue(mTz, JSONObject.class);
     }

@@ -75,6 +75,14 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"/>
+
             <Button
                 android:id="@+id/action_button"
                 style="?android:textAppearanceSmall"

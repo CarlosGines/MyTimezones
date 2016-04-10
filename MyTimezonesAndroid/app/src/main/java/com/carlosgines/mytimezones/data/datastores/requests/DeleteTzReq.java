@@ -40,11 +40,11 @@ public class DeleteTzReq extends Req {
 
     public Timezone deleteTz(final Context ctx, final String token) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JsonOrgModule());
             return mapper.convertValue(super.send(ctx, token), Timezone.class);
         } catch (ExecutionException e) {
-            handleExecutionException(e);
+            super.handleExecutionException(e);
             throw null;
         }
     }

@@ -1,5 +1,6 @@
 package com.carlosgines.mytimezones.domain.usecases;
 
+import com.carlosgines.mytimezones.domain.models.User;
 import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
 import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
@@ -50,21 +51,18 @@ public class SigninUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+        return Observable.create(new Observable.OnSubscribe<User>() {
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                final String token = mUserRepository.signin(
+            public void call(Subscriber<? super User> subscriber) {
+                final User user = mUserRepository.signin(
                         mUserName,
                         mPassword
                 );
-                if (token.isEmpty()) {
-                    subscriber.onNext(false);
-                    subscriber.onCompleted();
-                } else {
-                    mUserRepository.registerToken(token);
-                    subscriber.onNext(true);
-                    subscriber.onCompleted();
+                if (user != null) {
+                    mUserRepository.setAuthUser(user);
                 }
+                subscriber.onNext(user);
+                subscriber.onCompleted();
             }
         });
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.carlosgines.mytimezones.data.datastores.requests.RegisterReq;
 import com.carlosgines.mytimezones.data.datastores.requests.SigninReq;
+import com.carlosgines.mytimezones.domain.models.User;
 
 import javax.inject.Inject;
 
@@ -33,11 +34,11 @@ public class UserRestDataStore {
     // UserRestDataStore public methods
     // ==========================================================================
 
-    public String signin(final String userName, final String password) {
+    public User signin(final String userName, final String password) {
         return new SigninReq(userName, password).signin(mCtx);
     }
 
-    public String register(final String userName, final String password) {
+    public User register(final String userName, final String password) {
         return new RegisterReq(userName, password).register(mCtx);
     }
 }

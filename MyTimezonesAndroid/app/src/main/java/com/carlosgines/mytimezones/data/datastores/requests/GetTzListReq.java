@@ -22,7 +22,7 @@ public class GetTzListReq extends Req {
 
     public List<Timezone> getTzList(final Context ctx, final String token) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JsonOrgModule());
             return mapper.convertValue(
                     super.send(ctx, token).getJSONArray(Contract.RES_TZS),

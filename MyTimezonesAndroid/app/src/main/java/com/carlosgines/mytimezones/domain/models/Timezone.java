@@ -32,7 +32,7 @@ public class Timezone implements Serializable {
     public Timezone() {
     }
 
-    public Timezone(String name, String city, int timeDiff) {
+    public Timezone(final String name, final String city, final int timeDiff) {
         this.name = name;
         this.city = city;
         this.timeDiff = timeDiff;
@@ -46,7 +46,7 @@ public class Timezone implements Serializable {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void set_id(final String _id) {
         this._id = _id;
     }
 
@@ -54,7 +54,7 @@ public class Timezone implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -62,7 +62,7 @@ public class Timezone implements Serializable {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -70,7 +70,7 @@ public class Timezone implements Serializable {
         return timeDiff;
     }
 
-    public void setTimeDiff(int timeDiff) {
+    public void setTimeDiff(final int timeDiff) {
         this.timeDiff = timeDiff;
     }
 
@@ -78,7 +78,7 @@ public class Timezone implements Serializable {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(final User author) {
         this.author = author;
     }
 
@@ -86,7 +86,7 @@ public class Timezone implements Serializable {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(final Date created) {
         this.created = created;
     }
 
@@ -94,7 +94,7 @@ public class Timezone implements Serializable {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(final Date updated) {
         this.updated = updated;
     }
 

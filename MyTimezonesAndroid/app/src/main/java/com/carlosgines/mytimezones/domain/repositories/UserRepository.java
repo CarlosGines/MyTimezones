@@ -1,42 +1,51 @@
 package com.carlosgines.mytimezones.domain.repositories;
 
+import com.carlosgines.mytimezones.domain.models.User;
+
 /**
  * Interface that represents a Repository to manage User related data.
  */
 public interface UserRepository {
 
     /**
-     * Register a new user and get an auth token.
+     * Register a new user and get the auth user.
      *
      * @param userName The user name.
      * @param password The user password.
-     * @return The auth token or empty string if user name already exists.
+     * @return The auth user or empty string user if user name already exists.
      */
-    String register(final String userName, final String password);
+    User register(final String userName, final String password);
 
     /**
-     * Get an auth token for the user in case valid credentials are provided.
+     * Get an authenticated user in case valid credentials are provided.
      *
      * @param userName The user name.
      * @param password The user password.
-     * @return The auth token or empty string if auth failed.
+     * @return The auth user or empty user if auth failed.
      */
-    String signin(final String userName, final String password);
+    User signin(final String userName, final String password);
 
     /**
-     * Register a new auth token.
-     * @param token Auth token to be registered.
+     * Get the authenticated user if available.
+     *
+     * @return The authenticated user or null.
      */
-    void registerToken(String token);
+    User getAuthUser();
+
+    /**
+     * Set the authenticated user.
+     * @param user Authenticated user to be registered.
+     */
+    void setAuthUser(User user);
+
+    /**
+     * Unregister user auth token.
+     */
+    void signout();
 
     /**
      * Get the user auth token if available.
      * @return the user auth token or empty String if none.
      */
     String getToken();
-
-    /**
-     * Unregister user auth token.
-     */
-    void signout();
 }

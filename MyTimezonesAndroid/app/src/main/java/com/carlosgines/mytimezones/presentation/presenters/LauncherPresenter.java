@@ -1,11 +1,9 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.carlosgines.mytimezones.domain.usecases.CheckAuthUseCase;
-import com.carlosgines.mytimezones.domain.usecases.RegisterUseCase;
-import com.carlosgines.mytimezones.domain.usecases.SigninUseCase;
+import com.carlosgines.mytimezones.domain.models.User;
+import com.carlosgines.mytimezones.domain.usecases.GetAuthUserCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
 
 import javax.inject.Inject;
@@ -30,7 +28,7 @@ public class LauncherPresenter {
     private final Navigator mNavigator;
 
     // Use cases:
-    private final CheckAuthUseCase mCheckAuthUseCase;
+    private final GetAuthUserCase mGetAuthUserCase;
 
     // ========================================================================
     // Constructor
@@ -39,10 +37,10 @@ public class LauncherPresenter {
     @Inject
     public LauncherPresenter(final LauncherView view,
                              final Navigator navigator,
-                             final CheckAuthUseCase checkAuthUseCase) {
+                             final GetAuthUserCase getAuthUserCase) {
         mView = view;
         mNavigator= navigator;
-        mCheckAuthUseCase = checkAuthUseCase;
+        mGetAuthUserCase = getAuthUserCase;
     }
 
     // ========================================================================
@@ -50,7 +48,7 @@ public class LauncherPresenter {
     // ========================================================================
 
     public void onInit() {
-        mCheckAuthUseCase.execute(new CheckAuthSubscriber(mView));
+        mGetAuthUserCase.execute(new GetAuthSubscriber(mView));
     }
 
     // ========================================================================
@@ -60,18 +58,18 @@ public class LauncherPresenter {
     /**
      * Use case subscriber to receive notifications from CheckAuthSubscriber
      */
-    private final class CheckAuthSubscriber
-            extends DefaultSubscriber<Boolean> {
+    private final class GetAuthSubscriber
+            extends DefaultSubscriber<User> {
 
-        public CheckAuthSubscriber(final BaseView baseView) {
+        public GetAuthSubscriber(final BaseView baseView) {
             super(baseView);
         }
 
         @Override
-        public void onNext(final Boolean success) {
-            if(success) {
+        public void onNext(final User user) {
+            if(user != null) {
                 Log.d(getClass().getSimpleName(), "User found");
-                mNavigator.navigateToTzListActivity();
+                mNavigator.navigateToTzListActivity(user);
             } else {
                 Log.d(getClass().getSimpleName(), "User NOT found");
                 mNavigator.navigateToSigninActivity();

@@ -1,7 +1,5 @@
 package com.carlosgines.mytimezones.presentation.views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.carlosgines.mytimezones.R;
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.models.User;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.TzEditPresenter;
 import com.carlosgines.mytimezones.presentation.presenters.TzEditView;
@@ -46,6 +45,8 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     EditText mCityView;
     @Bind(R.id.timeDiff)
     EditText mTimeDiffView;
+    @Bind(R.id.author)
+    TextView mAuthor;
     @Bind(R.id.action_button)
     Button mActionButton;
 
@@ -121,7 +122,8 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
     }
 
     @Override
-    public void setViewMode(final ViewMode mode, final Timezone tz) {
+    public void setViewMode(final ViewMode mode, final Timezone tz,
+                            final User user) {
         if (mode.equals(ViewMode.CREATE)) {
             setTitle(R.string.title_create_tz);
             mActionButton.setText(R.string.action_create_tz);
@@ -131,6 +133,10 @@ public class TzEditActivity extends BaseActivity implements TzEditView {
             mNameView.setText(tz.getName());
             mCityView.setText(tz.getCity());
             mTimeDiffView.setText(String.valueOf(tz.getTimeDiff()));
+            if(user.isAdmin()) {
+                mAuthor.setVisibility(View.VISIBLE);
+                mAuthor.setText(tz.getAuthor().getUsername());
+            }
         }
     }
 

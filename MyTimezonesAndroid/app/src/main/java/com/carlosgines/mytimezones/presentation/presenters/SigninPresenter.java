@@ -2,6 +2,7 @@ package com.carlosgines.mytimezones.presentation.presenters;
 
 import android.text.TextUtils;
 
+import com.carlosgines.mytimezones.domain.models.User;
 import com.carlosgines.mytimezones.domain.usecases.RegisterUseCase;
 import com.carlosgines.mytimezones.domain.usecases.SigninUseCase;
 import com.carlosgines.mytimezones.presentation.Navigator;
@@ -164,16 +165,16 @@ public class SigninPresenter {
     /**
      * Use case subscriber to receive notifications from SigninUseCase
      */
-    private final class SigninSubscriber extends DefaultSubscriber<Boolean> {
+    private final class SigninSubscriber extends DefaultSubscriber<User> {
 
         public SigninSubscriber(final BaseView baseView) {
             super(baseView);
         }
 
         @Override
-        public void onNext(final Boolean success) {
-            if(success) {
-                mNavigator.navigateToTzListActivity();
+        public void onNext(final User user) {
+            if(user != null) {
+                mNavigator.navigateToTzListActivity(user);
             } else {
                 mView.showProgress(false);
                 mView.setAuthFailedError();
@@ -184,16 +185,16 @@ public class SigninPresenter {
     /**
      * Use case subscriber to receive notifications from RegisterSubscriber
      */
-    private final class RegisterSubscriber extends DefaultSubscriber<Boolean> {
+    private final class RegisterSubscriber extends DefaultSubscriber<User> {
 
         public RegisterSubscriber(final BaseView baseView) {
             super(baseView);
         }
 
         @Override
-        public void onNext(final Boolean success) {
-            if(success) {
-                mNavigator.navigateToTzListActivity();
+        public void onNext(final User user) {
+            if(user != null) {
+                mNavigator.navigateToTzListActivity(user);
             } else {
                 mView.showProgress(false);
                 mView.setDuplicateUserNameError();

@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.carlosgines.mytimezones.domain.models.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsonorg.JsonOrgModule;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,19 +35,19 @@ public class SigninReq extends Req {
     // Public methods
     // ========================================================================
 
-    public String signin(final Context ctx) {
+    public User signin(final Context ctx) {
         try {
-            return super.send(ctx).getString(Contract.RES_TOKEN);
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JsonOrgModule());
+            return mapper.convertValue(super.send(ctx), User.class);
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
             if (cause instanceof AuthFailureError) {
-                return "";
+                return null;
             } else {
                 super.handleExecutionException(e);
                 throw null;
             }
-        } catch (JSONException e) {
-            throw new RuntimeException("JSON exception at " + getRoute(), e);
         }
     }
 
@@ -78,6 +81,5 @@ public class SigninReq extends Req {
         private static final String ROUTE = "signin";
         private static final String REQ_USERNAME = "username";
         private static final String REQ_PASSWORD = "password";
-        private static final String RES_TOKEN = "token";
     }
 }

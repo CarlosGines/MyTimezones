@@ -1,5 +1,6 @@
 package com.carlosgines.mytimezones.domain.usecases;
 
+import com.carlosgines.mytimezones.domain.models.User;
 import com.carlosgines.mytimezones.domain.repositories.UserRepository;
 import com.carlosgines.mytimezones.domain.usecases.rx.PostExecutionThread;
 import com.carlosgines.mytimezones.domain.usecases.rx.ThreadExecutor;
@@ -11,9 +12,9 @@ import rx.Subscriber;
 
 /**
  * This is an implementation UseCase that checks if there is a known
- * authenticated user.
+ * authenticated user locally.
  */
-public class CheckAuthUseCase extends UseCase {
+public class GetAuthUserCase extends UseCase {
 
     // ========================================================================
     // Member variables
@@ -26,9 +27,9 @@ public class CheckAuthUseCase extends UseCase {
     // ========================================================================
 
     @Inject
-    public CheckAuthUseCase(final UserRepository userRepository,
-                            final ThreadExecutor threadExecutor,
-                            final PostExecutionThread postExecutionThread) {
+    public GetAuthUserCase(final UserRepository userRepository,
+                           final ThreadExecutor threadExecutor,
+                           final PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         mUserRepository = userRepository;
     }
@@ -47,10 +48,10 @@ public class CheckAuthUseCase extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+        return Observable.create(new Observable.OnSubscribe<User>() {
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                subscriber.onNext(!mUserRepository.getToken().isEmpty());
+            public void call(Subscriber<? super User> subscriber) {
+                subscriber.onNext(mUserRepository.getAuthUser());
                 subscriber.onCompleted();
             }
         });

@@ -36,14 +36,14 @@ public class SearchTzReq extends Req {
 
     public List<Timezone> searchTz(final Context ctx, final String token) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
+            final ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JsonOrgModule());
             return mapper.convertValue(
                     super.send(ctx, token).getJSONArray(Contract.RES_TZS),
                     new TypeReference<List<Timezone>>(){}
             );
         } catch (ExecutionException e) {
-            handleExecutionException(e);
+            super.handleExecutionException(e);
             throw null;
         } catch (JSONException e) {
             throw new RuntimeException("JSON exception at " + getRoute(), e);

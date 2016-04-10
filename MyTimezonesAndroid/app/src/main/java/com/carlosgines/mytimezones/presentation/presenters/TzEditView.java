@@ -1,6 +1,7 @@
 package com.carlosgines.mytimezones.presentation.presenters;
 
 import com.carlosgines.mytimezones.domain.models.Timezone;
+import com.carlosgines.mytimezones.domain.models.User;
 
 /**
  * View for Time zone create and edit screen.
@@ -17,8 +18,9 @@ public interface TzEditView extends BaseView{
      * Set view mode.
      * @param mode view mode.
      * @param tz The time zone record being edited if any.
+     * @param user the authenticated user.
      */
-    void setViewMode(ViewMode mode, Timezone tz);
+    void setViewMode(ViewMode mode, Timezone tz, User user);
 
     /**
      * Delete all error messages on fields.
