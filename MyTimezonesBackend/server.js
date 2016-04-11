@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -7,6 +8,8 @@ var models = require('./models');
 
 var app = express();
 
+var port = 8080;
+app.set('port', port);
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -38,6 +41,7 @@ app.get('/', function(req, res) {
 app.post('/register', db, routes.auth.register);
 app.post('/signin', localAuth, db, routes.auth.signin);
 app.use('/authFail', routes.auth.fail);
+app.post('/deleteAccount', tokenAuth, db, routes.auth.deleteAccount);
 
 // TIMEZONES
 app.get('/timezones', tokenAuth, db, routes.tzs.getTzs);
@@ -51,6 +55,13 @@ app.use(function(req, res){
     res.sendStatus(404);
 });
 
-app.listen(8080, '0.0.0.0', function(){
-	console.log('Listening on port 8080...');
-});
+http.createServer(app);
+if (require.main === module) {
+	app.listen(port, '0.0.0.0', function(){
+    console.info('Express server listening on port ' + port +  '...');
+  });
+}
+else {
+  console.info('Running app as a module')
+  exports.app = app;
+}

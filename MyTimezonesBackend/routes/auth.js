@@ -90,3 +90,8 @@ exports.register = function(req, res, next) {
     }
   );
 }
+
+exports.deleteAccount = function(req, res) {
+  req.user.remove();
+  res.json(req.user);
+};
