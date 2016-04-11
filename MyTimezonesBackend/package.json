@@ -4,6 +4,7 @@
   "description": "Test project for Toptal screening process. It consists on simple CRUDs about timezones.",
   "main": "server.js",
   "dependencies": {
+    "async": "^2.0.0-rc.3",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "mongodb": "^2.1.14",
