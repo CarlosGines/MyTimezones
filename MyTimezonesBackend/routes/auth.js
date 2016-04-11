@@ -2,6 +2,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var BearerStrategy = require('passport-http-bearer').Strategy;
 var uuid = require('node-uuid');
+var passwordHash = require('password-hash');
 
 exports.init = function(app, User) {
   passport.use(new LocalStrategy(
@@ -11,7 +12,9 @@ exports.init = function(app, User) {
         function(err, user) {
           if (err) {return done(err);}
           if (!user) {return done(null, false);}
-          if (!(password === user.password)) {return done(null, false);}
+          if (!passwordHash.verify(password, user.password)) {
+            return done(null, false);
+          }
           return done(null, user);
         }
       );
@@ -71,7 +74,7 @@ exports.register = function(req, res, next) {
       if (user) {return res.sendStatus(409);}
       req.db.User.create({
         username: req.body.username,
-        password: req.body.password,
+        password: passwordHash.generate(req.body.password),
         token: uuid.v4()
       }, function(err, user) {
         if (err) {
