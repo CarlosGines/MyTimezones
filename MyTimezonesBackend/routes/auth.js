@@ -85,13 +85,20 @@ exports.register = function(req, res, next) {
             admin: user.admin,
             token: user.token
           }
-        )
+        );
       });
     }
   );
 }
 
 exports.deleteAccount = function(req, res) {
+  req.db.Timezone.find({'author._id': req.user._id}).remove().exec();
   req.user.remove();
-  res.json(req.user);
+  res.json(
+    {
+      _id: req.user._id,
+      username: req.user.username,
+      admin: req.user.admin,
+    }
+  );
 };
