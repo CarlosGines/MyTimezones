@@ -1,19 +1,16 @@
 package com.carlosgines.mytimezones.presentation.views;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 
-import com.carlosgines.mytimezones.R;
 import com.carlosgines.mytimezones.presentation.di.DaggerActivityComponent;
 import com.carlosgines.mytimezones.presentation.presenters.LauncherPresenter;
-import com.carlosgines.mytimezones.presentation.presenters.LauncherView;
 
 import javax.inject.Inject;
 
 /**
  * Launcher activity that redirects according to auth state.
  */
-public class LauncherActivity extends BaseActivity implements LauncherView {
+public class LauncherActivity extends BaseActivity{
 
     @Inject
     LauncherPresenter mPresenter;
@@ -21,17 +18,8 @@ public class LauncherActivity extends BaseActivity implements LauncherView {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launcher);
-        initViews();
         initInjector();
-        mPresenter.onInit();
-    }
-
-    private void initViews() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+        mPresenter.onCreate();
     }
 
     // Initializes injector and inject

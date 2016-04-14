@@ -66,10 +66,19 @@ public class TzListPresenter {
     // View events
     // ========================================================================
 
-    public void onInit(final Bundle extras) {
+    public void onCreate(final Bundle extras) {
         mUser = (User) extras.getSerializable(Navigator.USER_KEY);
+        mView.initView();
         mView.showProgress(true);
         mGetTzListUseCase.execute(new GetTzListSubscriber(mView));
+    }
+
+    public void onStart() {
+        mView.startTimer();
+    }
+
+    public void onStop() {
+        mView.stopTimer();
     }
 
     public void onSignoutClick() {

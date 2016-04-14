@@ -47,7 +47,8 @@ public class LauncherPresenter {
     // View events
     // ========================================================================
 
-    public void onInit() {
+    public void onCreate() {
+        mView.initView();
         mGetAuthUserCase.execute(new GetAuthSubscriber(mView));
     }
 

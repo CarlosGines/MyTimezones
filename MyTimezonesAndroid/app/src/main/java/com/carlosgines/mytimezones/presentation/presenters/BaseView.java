@@ -3,6 +3,11 @@ package com.carlosgines.mytimezones.presentation.presenters;
 public interface BaseView {
 
     /**
+     * Initialize this view to be ready to render.
+     */
+    void initView();
+
+    /**
      * Show the progress screen.
      */
     void showProgress(final boolean show);

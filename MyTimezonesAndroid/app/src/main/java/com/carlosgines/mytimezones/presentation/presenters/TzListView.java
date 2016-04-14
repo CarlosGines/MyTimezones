@@ -10,7 +10,17 @@ import java.util.List;
 public interface TzListView extends BaseView {
 
     /**
-     * * Render a list of timezones.
+     * Start running timer to update current time on time zone records display.
+     */
+    void startTimer();
+
+    /**
+     * Stop running timer to update current time on time zone records display.
+     */
+    void stopTimer();
+
+    /**
+     * Render a list of timezones.
      * @param timezones the timezones to render.
      * @param showAuthor whether to show the author of the time zone records.
      */

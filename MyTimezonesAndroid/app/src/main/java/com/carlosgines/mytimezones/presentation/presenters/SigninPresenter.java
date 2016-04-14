@@ -55,7 +55,8 @@ public class SigninPresenter {
     // View events
     // ========================================================================
 
-    public void onInit() {
+    public void onCreate() {
+        mView.initView();
         this.switchViews();
     }
 

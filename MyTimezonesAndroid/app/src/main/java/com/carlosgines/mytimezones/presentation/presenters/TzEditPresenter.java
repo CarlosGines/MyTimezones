@@ -58,11 +58,12 @@ public class TzEditPresenter {
     // View events
     // ========================================================================
 
-    public void onInit(Bundle extras) {
+    public void onCreate(Bundle extras) {
         mUser = (User) extras.getSerializable(Navigator.USER_KEY);
         mTz = (Timezone) extras.getSerializable(Navigator.TZ_KEY);
         mMode = mTz == null ? TzEditView.ViewMode.CREATE :
                 TzEditView.ViewMode.EDIT;
+        mView.initView();
         mView.setViewMode(mMode, mTz, mUser);
     }
 
