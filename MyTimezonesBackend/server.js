@@ -44,11 +44,13 @@ app.use('/authFail', routes.auth.fail);
 app.post('/deleteAccount', tokenAuth, db, routes.auth.deleteAccount);
 
 // TIMEZONES
-app.get('/timezones', tokenAuth, db, routes.tzs.getTzs);
-app.post('/timezones', tokenAuth, db, routes.tzs.add);
-app.get('/timezones/:id', tokenAuth, db, routes.tzs.checkTz, routes.tzs.getTz);
-app.put('/timezones/:id', tokenAuth, db, routes.tzs.checkTz, routes.tzs.updateTz);
-app.delete('/timezones/:id', tokenAuth, db, routes.tzs.checkTz, routes.tzs.del);
+app.route('/timezones')
+  .get(tokenAuth, db, routes.tzs.getTzs)
+  .post(tokenAuth, db, routes.tzs.add)
+app.route('/timezones/:id')
+  .get(tokenAuth, db, routes.tzs.checkTz, routes.tzs.getTz)
+  .put(tokenAuth, db, routes.tzs.checkTz, routes.tzs.updateTz)
+  .delete(tokenAuth, db, routes.tzs.checkTz, routes.tzs.del)
 app.get('/timezones/search/:text', tokenAuth, db, routes.tzs.search);
 
 app.use(function(req, res){
