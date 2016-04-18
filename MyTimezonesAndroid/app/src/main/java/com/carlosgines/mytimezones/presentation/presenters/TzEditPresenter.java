@@ -175,6 +175,7 @@ public class TzEditPresenter {
             mView.showProgress(false);
             mView.showEditSuccess(mMode);
             if (mMode.equals(TzEditView.ViewMode.CREATE)) {
+                mMode = TzEditView.ViewMode.EDIT;
                 mView.setViewMode(TzEditView.ViewMode.EDIT, mTz, mUser);
             }
         }
