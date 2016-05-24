@@ -34,7 +34,7 @@ var localAuth = routes.auth.localAuth;
 var tokenAuth = routes.auth.tokenAuth;
 
 app.get('/', function(req, res) {
-  res.send('Hello Toptaler');
+  res.send('Hello buddy!');
 });
 
 // AUTH
